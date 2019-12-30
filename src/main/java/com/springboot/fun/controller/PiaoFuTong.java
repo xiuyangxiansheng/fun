@@ -45,7 +45,7 @@ public class PiaoFuTong {
         XMLSerializer cacheXmlSerializer = new XMLSerializer();
         JSON referJsonResult = cacheXmlSerializer.read(xml);
         JSONObject referJson = JSONObject.parseObject(referJsonResult.toString());
-        System.out.println(referJson);
+        System.out.println(referJson);//day
 
         String sessionkey = referJson.get("SOAP-ENV:Body").toString();
         System.out.println(sessionkey);//dayig
