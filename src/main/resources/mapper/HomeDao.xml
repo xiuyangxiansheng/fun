@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.fun.dao.HomeDao">
+     <!--活动首页-->
+    <!-- 累计用户-->
+    <select id="userCount" resultType="int">
+	 select count(*) from  wx_user
+	</select>
+    <!--昨日新增用户-->
+    <select id="yesterdayUserCount" resultType="int">
+	     select count(*) from wx_user where to_days(now()) - to_days(create_time) = 1
+	</select>
+     <!--今日总订单-->
+    <select id="todayOrder" resultType="int" >
+    select count(*) from fun_commodity_order where to_days(order_create_time) = to_days(now())
+    </select>
+   <!-- 今日线上订单-->
+    <select id="todayUpOrder" resultType="int" >
+    select count(*) from fun_commodity_order where to_days(order_create_time) = to_days(now()) and order_attribute=1
+    </select>
+     <!--今日线下订单-->
+    <select id="todayDownOrder" resultType="int" >
+    select count(*) from fun_commodity_order where to_days(order_create_time) = to_days(now()) and order_attribute=2
+    </select>
+     <!--校园二手动态-->
+    <select id="schoolUsed" resultType="int">
+	 select count(*) from  fun_used
+	</select>
+     <!--总动力币-->
+    <select id="coinCount" resultType="decimal" >
+     select COALESCE(sum(balance),0) from ylq_wallet
+    </select>
+   <!--  用户-->
+    <!-- 今日新增用户-->
+    <select id="todayAddUser" resultType="int" >
+    select count(*) from wx_user where to_days(create_time) = to_days(now())
+    </select>
+   <!-- 今日授权用户-->
+    <select id="todayAccreditUser" resultType="int" >
+    select count(*) from wx_user where to_days(create_time) = to_days(now()) and accredit=1
+    </select>
+    <!-- 今日未授权用户-->
+    <select id="todayNoAccreditUser" resultType="int" >
+    select count(*) from wx_user where to_days(create_time) = to_days(now()) and accredit=0
+    </select>
+
+     <!--昨日新增用户-->
+    <select id="yesterdayAddUser" resultType="int">
+	     select count(*) from wx_user where to_days(now()) - to_days(create_time) = 1
+	</select>
+
+    <!-- 昨日授权用户-->
+     <select id="yesterdayAccreditUser" resultType="int">
+	     select count(*) from wx_user where to_days(now()) - to_days(create_time) = 1 and accredit=1
+	</select>
+   <!--  昨日未授权用户-->
+    <select id="yesterdayNoAccreditUser" resultType="int">
+	     select count(*) from wx_user where to_days(now()) - to_days(create_time) = 1 and accredit=0
+	</select>
+
+
+     <!--订单-->
+     <!--待发货-->
+      <select id="waitShipmentsOrderCount" resultType="int">
+	      select count(*) from  fun_commodity_order where order_state=1
+	</select>
+
+     <!--待自提-->
+      <select id="waitTakeOrderCount" resultType="int">
+	      select count(*) from  fun_commodity_order where order_state=2
+	</select>
+     <!--已发货-->
+     <select id="sendOrderCount" resultType="int">
+	     select count(*) from  fun_commodity_order where order_state=3
+	</select>
+     <!--已核销-->
+     <select id="codeSuccessOrderCount" resultType="int">
+	     select count(*) from  fun_commodity_order where order_state=4
+	</select>
+     <!--已完成-->
+      <select id="accomplishOrderCount" resultType="int">
+	     select count(*) from  fun_commodity_order where order_state=5
+	</select>
+     <!--已过期-->
+      <select id="failedOrderCount" resultType="int">
+	     select count(*) from  fun_commodity_order where order_state=6
+	</select>
+
+     <!--校园动态-->
+     <!--今日动态-->
+       <select id="todayTrends" resultType="int" >
+    select count(*) from fun_used where to_days(used_create_time) = to_days(now())
+    </select>
+    <!-- 昨日发布-->
+    <select id="yesterdayTrends" resultType="int">
+	     select count(*) from fun_used where to_days(now()) - to_days(used_create_time) = 1
+	</select>
+    <!-- 其他-->
+    <select id="otherTrends" resultType="int">
+	    select count(*) from  fun_used where used_type=200004
+	</select>
+
+     <!--二手-->
+    <select id="usedTrends" resultType="int">
+	    select count(*) from  fun_used where used_type=200001
+	</select>
+     <!--求购-->
+    <select id="buyTrends" resultType="int">
+	    select count(*) from  fun_used where used_type=200002
+	</select>
+     <!--许愿-->
+    <select id="wishTrends" resultType="int">
+	    select count(*) from  fun_used where used_type=200003
+	</select>
+    <!-- 昨日许愿-->
+    <select id="yesterdayWishTrends" resultType="int">
+	     select count(*) from fun_used where to_days(now()) - to_days(used_create_time) = 1 and used_type=200003
+	</select>
+
+   <!--  动力币-->
+    <!-- 总余额  见上面-->
+     <!--总消费-->
+    <select id="customerCoinCount" resultType="decimal">
+    select COALESCE(sum(money),0) from ylq_wallet_detail  where state=2
+	</select>
+     <!--今日增加-->
+    <select id="todayAddCoinCount" resultType="decimal">
+    select COALESCE(sum(money),0) from ylq_wallet_detail where to_days(create_time) = to_days(now()) and state=1
+	</select>
+    <!-- 今日消费-->
+    <select id="todayCustomerCoinCount" resultType="decimal">
+    select COALESCE(sum(money),0) from ylq_wallet_detail where to_days(create_time) = to_days(now()) and state=2
+	</select>
+     <!--昨日增加-->
+    <select id="yesterdayAddCoinCount" resultType="decimal">
+	     select COALESCE(sum(money),0)  from ylq_wallet_detail where to_days(now()) - to_days(create_time) = 1    and state=1
+	</select>
+     <!--昨日消费-->
+    <select id="yesterdayCustomerCoinCount" resultType="decimal">
+	     select COALESCE(sum(money),0)  from ylq_wallet_detail where to_days(now()) - to_days(create_time) = 1    and state=2
+	</select>
+</mapper>

@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.fun.dao.AppletLoginDao">
+    <!--用户信息-->
+    <resultMap type="com.springboot.fun.entity.WxUser" id="BaseResultMap">
+        <result property="id" column="id"/>
+            <result property="userId" column="user_id"/>
+            <result property="momentsUrl" column="moments_url"/>
+            <result property="userName" column="user_name"/>
+            <result property="userPhone" column="user_phone"/>
+            <result property="userAddress" column="user_address"/>
+        <result property="openid" column="openid"/>
+        <result property="unionid" column="unionid"/>
+        <result property="nickname" column="nickname"/>
+        <result property="subscribe" column="subscribe"/>
+        <result property="subscribeAt" column="subscribeAt"/>
+        <result property="sex" column="sex"/>
+        <result property="country" column="country"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="headimgurl" column="headimgurl"/>
+        <result property="wxid" column="wxid"/>
+        <result property="opby" column="opBy"/>
+        <result property="opat" column="opAt"/>
+        <result property="delflag" column="delFlag"/>
+        <result property="status" column="status"/>
+        <result property="pId" column="p_id"/>
+        <result property="schoolId" column="school_id"/>
+        <result property="schoolName" column="school_name"/>
+        <result property="sortRank" column="sort_rank"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="description" column="description"/>
+            <result property="totalMoney" column="totalMoney"/>
+            <result property="coin" column="coin"/>
+            <result property="usedNum" column="usedNum"/>
+            <result property="supplierState" column="supplierState"/>
+        <result property="accredit" column="accredit"/>
+        <result property="jigaungState" column="jigaungState"/>
+
+        <result property="memberState" column="member_state"/>
+        <result property="memberStartTime" column="member_start_time"/>
+        <result property="memberDeadlineTime" column="member_deadline_time"/>
+        <result property="memberNum" column="memberNum"/>
+    </resultMap>
+    <!--查看整个学校的信息-->
+    <resultMap type="com.springboot.fun.entity.SchoolEntity" id="schoolMap">
+        <result property="id" column="id"/>
+        <result property="name" column="school_name"/>
+        <result property="number" column="school_number"/>
+        <result property="firstLetter" column="first_letter"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="isDefault" column="is_default"/>
+        <result property="status" column="status"/>
+        <result property="sortRank" column="sort_rank"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="description" column="description"/>
+    </resultMap>
+    <!--动力币明细表-->
+    <resultMap type="com.springboot.fun.entity.YlqWalletDetail" id="walletDetailMap">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="money" column="money"/>
+        <result property="balance" column="balance"/>
+        <result property="type" column="type"/>
+        <result property="orderId" column="order_id"/>
+        <result property="status" column="status"/>
+        <result property="state" column="state"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    <!--用户步数信息-->
+    <resultMap id="stepMap" type="com.springboot.fun.entity.YlqUserStep">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+            <result property="nikeName" column="nikeName"/>
+            <result property="userUrl" column="userUrl"/>
+            <result property="schoolId" column="schoolId"/>
+            <result property="schoolName" column="schoolName"/>
+        <result property="stepTotal" column="step_total"/>
+        <result property="stepConvert" column="step_convert"/>
+        <result property="day" column="day"/>
+        <result property="version" column="version"/>
+        <result property="status" column="status"/>
+        <result property="sortRank" column="sort_rank"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <!--首页轮播图配置-->
+    <resultMap type="com.springboot.fun.entity.FunHomeUrl" id="funHomeUrlMap">
+        <result property="id" column="id"/>
+        <result property="homeUrl" column="home_url"/>
+        <result property="homeState" column="home_state"/>
+        <result property="homeSchoolId" column="home_school_id"/>
+        <result property="homePath" column="home_path"/>
+        <result property="homeResult" column="home_result"/>
+        <result property="homePathType" column="home_path_type"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="homeDeleteState" column="home_delete_state"/>
+    </resultMap>
+    <!--根据openID查找在不在数据库-->
+<!--    <select id="selectByOpenId" resultType="com.springboot.fun.entity.WxUser" resultMap="BaseResultMap">
+   select
+       id,
+       user_id,
+        moments_url,
+        user_name,
+        user_phone,
+        user_address,
+       openid,
+       unionid,
+       nickname,
+       subscribe,
+       sex,
+       country,
+       province,
+       city,
+       headimgurl,
+       wxid,
+       opBy,
+       opAt,
+       delFlag,
+       status,
+       p_id,
+       school_id,
+       school_name,
+       sort_rank,
+       remark,
+       create_time,
+       update_time,
+       accredit,
+       description
+   from wx_user where openid=#{openId}
+	</select>-->
+    <select id="selectByOpenId" resultType="com.springboot.fun.entity.WxUser" resultMap="BaseResultMap">
+        select
+            wu.id,
+            wu.user_id,
+            wu.moments_url,
+            wu.user_name,
+            wu.user_phone,
+            wu.user_address,
+            wu.openid,
+            wu.unionid,
+            wu.nickname,
+            wu.subscribe,
+            wu.sex,
+            wu.country,
+            wu.province,
+            wu.city,
+            wu.headimgurl,
+            wu.wxid,
+            wu.opBy,
+            wu.opAt,
+            wu.delFlag,
+            wu.status,
+            wu.p_id,
+            wu.school_id,
+            wu.school_name,
+            wu.sort_rank,
+            wu.remark,
+            wu.create_time,
+            wu.update_time,
+            wu.accredit,
+            wu.description,
+            wu.member_state,
+            wu.member_start_time,
+            wu.member_deadline_time,
+            (select count(*) from ylq_friend yf where yf.user_id=wu.id and status=1)  as memberNum,
+            (select count(*) from nideshop_supplier_employee nse where nse.customer_id=wu.id) as supplierState,
+            (select count(*) from fun_used fu where fu.used_user_id=wu.id) as usedNum
+        from wx_user wu where openid=#{openId}
+    </select>
+
+<!--添加到数据库-->
+    <insert id="insertMember" parameterType="com.springboot.fun.entity.WxUser">
+		insert into wx_user(
+			`id`,
+            `user_id`,
+			`openid`,
+			`unionid`,
+			`nickname`,
+			`sex`,
+			`country`,
+			`province`,
+			`city`,
+			`headimgurl`,
+            `school_id`,
+            `school_name`)
+		values(
+			#{id},
+			#{userId},
+			#{openid},
+			#{unionid},
+			#{nickname},
+			#{sex},
+			#{country},
+			#{province},
+			#{city},
+			#{headimgurl},
+            '19c7abb2c8b211e9aab900163e05cf65',
+            '陕西科技大学')
+	</insert>
+    <!--存图片oss-->
+    <insert id="insertImg" parameterType="com.springboot.fun.entity.Img">
+            insert into sys_oss(
+            url)
+        values(
+            #{url}
+        )
+    </insert>
+
+    <!--根据userId查找在不在数据库-->
+    <select id="selectByUserId" resultType="com.springboot.fun.entity.WxUser" resultMap="BaseResultMap">
+        select
+            wu.id,
+            wu.user_id,
+            wu.moments_url,
+            wu.user_name,
+            wu.user_phone,
+            wu.user_address,
+            wu.openid,
+            wu.unionid,
+            wu.nickname,
+            wu.subscribe,
+            wu.sex,
+            wu.country,
+            wu.province,
+            wu.city,
+            wu.headimgurl,
+            wu.wxid,
+            wu.opBy,
+            wu.opAt,
+            wu.delFlag,
+            wu.status,
+            wu.p_id,
+            wu.school_id,
+            wu.school_name,
+            wu.sort_rank,
+            wu.remark,
+            wu.create_time,
+            wu.update_time,
+            wu.accredit,
+            wu.description,
+            wu.member_state,
+            wu.member_start_time,
+            wu.member_deadline_time,
+            (select count(*) from ylq_friend yf where yf.user_id=wu.id and status=1)  as memberNum,
+            (select count(*) from nideshop_supplier_employee nse where nse.customer_id=wu.id) as supplierState,
+            (select count(*) from fun_used fu where fu.used_user_id=wu.id) as usedNum
+        from wx_user wu where wu.id=#{id}
+    </select>
+    <!--添加好友到数据库-->
+    <insert id="insertShareMember" parameterType="com.springboot.fun.entity.YlqFriend">
+        insert into ylq_friend(
+            id,
+            user_id,
+            friend_user_id)
+        values(
+            #{uUid},
+            #{shareId},
+            #{friendUserId}
+        )
+    </insert>
+  <!--  编辑用户信息-->
+    <update id="updateMember">
+        UPDATE wx_user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="headimgurl!=null">headimgurl=#{headimgurl},</if>
+            <if test="nickname!=null">nickname=#{nickname},</if>
+            <if test="sex!=null">sex=#{sex},</if>
+            <if test="country!=null">country=#{country},</if>
+            <if test="city!=null">city=#{city},</if>
+            <if test="province!=null">province=#{province},</if>
+            <if test="openid!=null">openid=#{openid},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+    <!--获取用户信息-->
+    <select id="finUsedUserInf" resultType="com.springboot.fun.entity.WxUser" resultMap="BaseResultMap">
+        select
+            wu.id,
+            wu.user_id,
+            wu.moments_url,
+            wu.user_name,
+            wu.user_phone,
+            wu.user_address,
+            wu.openid,
+            wu.unionid,
+            wu.nickname,
+            wu.subscribe,
+            wu.sex,
+            wu.country,
+            wu.province,
+            wu.city,
+            wu.headimgurl,
+            wu.wxid,
+            wu.opBy,
+            wu.opAt,
+            wu.delFlag,
+            wu.status,
+            wu.p_id,
+            wu.school_id,
+            wu.school_name,
+            wu.sort_rank,
+            wu.remark,
+            wu.create_time,
+            wu.update_time,
+            wu.description,
+            wu.accredit,
+            yw.total_money as totalMoney,
+            yw.balance as coin,
+            wu.jiguang_state as jigaungState,
+            wu.member_state,
+            wu.member_start_time,
+            wu.member_deadline_time,
+            (select count(*) from ylq_friend  where user_id=wu.id and status=1) as memberNum,
+            (select count(*) from nideshop_supplier_employee nse where nse.customer_id=wu.id) as supplierState,
+            (select count(*) from fun_used fu where fu.used_user_id=wu.id) as usedNum
+        from wx_user wu
+        LEFT JOIN ylq_wallet yw ON yw.user_id= wu.id
+        where wu.id=#{id}
+    </select>
+
+    <!--查看用户在 xcx_3rd_session有没有值，有的话加，没有的话更新-->
+    <update id="updateXcx3rdSessionById" parameterType="com.springboot.fun.entity.Xcx3rdSession">
+        UPDATE xcx_3rd_session
+        <trim prefix="set" suffixOverrides=",">
+            <if test="sessionkey!=null">userSessionKey=#{sessionkey},</if>
+            <if test="code!=null">code=#{code},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+    <select id="selectXcx3rdSession" resultType="com.springboot.fun.entity.Xcx3rdSession">
+            select
+            id as id,
+            skey as   skey,
+            userSessionKey as  sessionkey,
+            openId  as openid
+        from xcx_3rd_session where openId=#{openId}
+    </select>
+<!--添加Xcx3rdSession-->
+    <insert id="insertXcx3rdSession" parameterType="com.springboot.fun.entity.Xcx3rdSession">
+    insert into xcx_3rd_session(
+    id,
+    skey,
+    userSessionKey,
+    openId,
+    unionId,
+    code)
+    values(
+    #{id},
+    #{skey},
+    #{sessionkey},
+    #{openid},
+    #{unionid},
+    #{code}
+    )
+    </insert>
+    <!--查找整个学校的信息-->
+    <select id="findAllSchool" resultType="com.springboot.fun.entity.SchoolEntity" resultMap="schoolMap">
+        select
+            ys.id,
+            ys.school_name,
+            ys.school_number,
+            ys.first_letter,
+            ys.longitude,
+            ys.latitude,
+            ys.is_default,
+            ys.status,
+            ys.sort_rank,
+            ys.remark,
+            ys.create_time,
+            ys.update_time,
+            ys.description
+        from ylq_school ys
+    </select>
+    <!--根据学校的名字搜索学校-->
+    <select id="findSchoolByName" resultType="String">
+        select ys.school_name from ylq_school ys where ys.school_name like "%"#{name}"%"
+    </select>
+
+     <!--用户切换校区
+     查找这个学校的信息-->
+    <!--查找整个学校的信息-->
+    <select id="selectSchoolById" resultType="com.springboot.fun.entity.SchoolEntity" resultMap="schoolMap">
+        select
+            id,
+            school_name,
+            school_number,
+            first_letter,
+            longitude,
+            latitude,
+            is_default,
+            status,
+            sort_rank,
+            remark,
+            create_time,
+            update_time,
+            description
+        from ylq_school
+        where id=#{schoolId}
+    </select>
+    <!--更新用户信息-->
+    <update id="updateWxUserById" parameterType="com.springboot.fun.entity.WxUser">
+        UPDATE wx_user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="schoolId!=null">school_id=#{schoolId},</if>
+            <if test="schoolName!=null">school_name=#{schoolName},</if>
+        </trim>
+        WHERE id=#{userId}
+    </update>
+    <!--创建用户钱包-->
+    <insert id="insertWallet" parameterType="com.springboot.fun.entity.YlqWallet">
+        insert into ylq_wallet(
+            id,
+            user_id,
+            balance,
+            total_money
+        )
+        values(
+            #{id},
+            #{userId},
+            #{balance},
+            #{totalMoney}
+        )
+    </insert>
+    <!--查找用户的动力币明细-->
+    <select id="findUserWalletDetail" resultType="com.springboot.fun.entity.YlqWalletDetail" resultMap="walletDetailMap">
+        select
+            id,
+            user_id,
+            money,
+            balance,
+            type,
+            order_id,
+            status,
+            state,
+            remark,
+            create_time,
+            update_time
+        from ylq_wallet_detail where user_id=#{userId}
+         order by create_time desc
+    </select>
+
+
+     <!--查看前100名本周的排行榜 本周最大的步数 -->
+   <!-- <select id="selectWalletRankingList" resultType="com.springboot.fun.entity.YlqUserStep" resultMap="stepMap">
+        select
+            yus.user_id,
+            wu.nickname as nikeName,
+            wu.headimgurl as userUrl,
+            wu.school_id as schoolId,
+            wu.school_name as schoolName,
+            (select Max(step_total) from ylq_user_step where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[<=]]> date(ylq_user_step.day) and user_id=wu.id) as stepTotal
+        from ylq_user_step yus
+            LEFT JOIN wx_user wu ON yus.user_id= wu.id
+        where wu.school_id=#{schoolId}
+        and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[<=]]> date(yus.day) group by user_id
+        order by stepTotal desc
+    </select>-->
+
+    <!--查看近七天的排行榜 本周的所有学校步数和 -->
+<!--    <select id="selectWalletRankingList" resultType="com.springboot.fun.entity.YlqUserStep" resultMap="stepMap">
+        select
+            yus.user_id,
+            wu.nickname as nikeName,
+            wu.headimgurl as userUrl,
+            wu.school_id as schoolId,
+            wu.school_name as schoolName,
+            (select SUM(step_total) from ylq_user_step where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[<=]]> date(ylq_user_step.day) and user_id=wu.id) as stepTotal
+        from ylq_user_step yus
+            LEFT JOIN wx_user wu ON yus.user_id= wu.id
+        where  DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[<=]]> date(yus.day) group by user_id
+        order by stepTotal desc
+    </select>-->
+    <!--查看近本周的排行榜 本周的所有学校步数和 -->
+    <select id="selectWalletRankingList" resultType="com.springboot.fun.entity.YlqUserStep" resultMap="stepMap">
+        select
+            yus.user_id,
+            yus.create_time,
+            wu.nickname as nikeName,
+            wu.headimgurl as userUrl,
+            wu.school_id as schoolId,
+            wu.school_name as schoolName,
+            (select SUM(step_total) from ylq_user_step where YEARWEEK(date_format(ylq_user_step.day,'%Y-%m-%d')) = YEARWEEK(now()) and ylq_user_step.user_id=wu.id) as stepTotal
+        from ylq_user_step yus
+            LEFT JOIN wx_user wu ON yus.user_id= wu.id
+        where wu.accredit=1 and  YEARWEEK(date_format(yus.day,'%Y-%m-%d')) = YEARWEEK(now()) GROUP BY  yus.user_id
+        order by stepTotal desc
+    </select>
+    <!--查找用户id有没有重复，有，就再次生成-->
+    <select id="findUserId" resultType="String">
+        select user_id from wx_user  where user_id =#{userId}
+    </select>
+
+
+     <!--用户总量加一-->
+    <update id="addNoticeUserNum">
+        update fun_notice set userNum=(userNum+1)
+    </update>
+    <!--给用户的浏览量加一-->
+    <update id="addNoticeBrowseNum">
+        update fun_notice set browseNum=(browseNum+1)
+    </update>
+     <!--获取公告信息-->
+    <select id="finNoticeInf" resultType="com.springboot.fun.entity.FunNotice" >
+        select
+            id as id,
+            userNum as userNum,
+            browseNum as browseNum,
+            notice as notice,
+            state as state,
+            type as type,
+            createTime as createTime,
+            updateTime as updateTime
+        from fun_notice
+        where state=1
+    </select>
+    <!--奖励运动比-->
+    <update id="addCoinByUserId">
+        update ylq_wallet set balance=(balance+#{orderCoin}),total_money=(total_money+#{orderCoin}) where user_id=#{userId}
+    </update>
+
+    <!--改变用户的领取新用户红包完成状态-->
+    <update id="updateTagRedPacket">
+        update ylq_user_tag set new_user_redpacket_tag=1 where user_id=#{userId}
+    </update>
+    <!--改变用户的收藏小程序完成状态-->
+    <update id="updateTagCollection">
+        update ylq_user_tag set collection_tag=1 where user_id=#{userId}
+    </update>
+     <!--改变用户的领取发布二手完成状态-->
+    <update id="updateTagUsed">
+        update ylq_user_tag set new_used_tag=1 where user_id=#{usedUserId}
+    </update>
+
+    <!--生成用户任务表单-->
+    <insert id="insertUserTag" parameterType="com.springboot.fun.entity.YlqUserTag">
+        insert into ylq_user_tag(
+            id,
+            user_id
+        )
+        values(
+            #{id},
+            #{userId}
+        )
+    </insert>
+    <!--改变用户的激励小视频状态-->
+    <update id="updateVideo">
+        update ylq_user_tag set incentive_video_tag=(incentive_video_tag+1) where user_id=#{userId}
+    </update>
+
+    <!--
+    后台端
+    -->
+    <!--查看微信用户列表-->
+    <select id="findWXUserList" resultType="com.springboot.fun.entity.WxUser" resultMap="BaseResultMap">
+          select
+            wu.id,
+            wu.user_id,
+            wu.moments_url,
+            wu.user_name,
+            wu.user_phone,
+            wu.user_address,
+            wu.openid,
+            wu.unionid,
+            wu.nickname,
+            wu.subscribe,
+            wu.sex,
+            wu.country,
+            wu.province,
+            wu.city,
+            wu.headimgurl,
+            wu.wxid,
+            wu.opBy,
+            wu.opAt,
+            wu.delFlag,
+            wu.status,
+            wu.p_id,
+            wu.school_id,
+            wu.school_name,
+            wu.sort_rank,
+            wu.remark,
+            wu.create_time,
+            wu.update_time,
+            wu.description,
+            wu.accredit,
+            yw.total_money as totalMoney,
+            yw.balance as coin,
+            wu.member_state,
+            wu.member_start_time,
+            wu.member_deadline_time,
+            (select count(*) from fun_used where wu.user_id=wu.id) as usedNum
+        from wx_user wu
+            LEFT JOIN ylq_wallet yw ON yw.user_id= wu.id
+        where 1=1
+              and (#{schoolId} is null or wu.school_id=#{schoolId})
+              and (#{accredit} is null or wu.accredit=#{accredit})
+              and (#{startTime} is null or UNIX_TIMESTAMP(wu.create_time) <![CDATA[>=]]> UNIX_TIMESTAMP(#{startTime}))
+              and (#{endTime} is null or UNIX_TIMESTAMP(wu.create_time) <![CDATA[<=]]> UNIX_TIMESTAMP(#{endTime}))
+              and (#{mixCoin} is null or yw.balance <![CDATA[>=]]>#{mixCoin})
+              and (#{maxCoin} is null or yw.balance <![CDATA[<=]]>#{maxCoin})
+              and (#{userId} is null or instr(wu.user_id,#{userId})>0)
+              and (#{nickname} is null or instr(wu.nickname,#{nickname})>0)
+              and (#{phone} is null or instr(wu.user_phone,#{phone})>0)
+          order by wu.create_time desc
+
+    </select>
+            <!-- instr(wu.nickname,#{search})=1 or instr(wu.id,#{search})=1
+                   or instr(wu.user_phone,#{search})=1 or instr(wu.user_id,#{search})=1
+                   or instr(yw.balance,#{search})=1
+           like方式
+              (wu.nickname like "%"#{search}"%") or (wu.user_id like "%"#{search}"%") or
+                   (wu.user_phone like "%"#{search}"%") or (yw.balance like "%"#{search}"%") or
+                   (wu.id like "%"#{search}"%")
+                   -->
+    <!--模糊搜索用户（昵称，主键id动力币余额，手机号，唯一id）-->
+    <select id="searchMapWXUserList" resultType="com.springboot.fun.entity.WxUser" resultMap="BaseResultMap">
+    select
+    wu.id,
+    wu.user_id,
+    wu.moments_url,
+    wu.user_name,
+    wu.user_phone,
+    wu.user_address,
+    wu.openid,
+    wu.unionid,
+    wu.nickname,
+    wu.subscribe,
+    wu.sex,
+    wu.country,
+    wu.province,
+    wu.city,
+    wu.headimgurl,
+    wu.wxid,
+    wu.opBy,
+    wu.opAt,
+    wu.delFlag,
+    wu.status,
+    wu.p_id,
+    wu.school_id,
+    wu.school_name,
+    wu.sort_rank,
+    wu.remark,
+    wu.create_time,
+    wu.update_time,
+    wu.description,
+    wu.accredit,
+    yw.total_money as totalMoney,
+    yw.balance as coin,
+    wu.member_state,
+     wu.member_start_time,
+     wu.member_deadline_time,
+    (select count(*) from fun_used fu where fu.used_user_id=wu.id) as usedNum
+    from wx_user wu
+    LEFT JOIN ylq_wallet yw ON yw.user_id= wu.id
+    where  instr(wu.nickname,#{search})>0 or instr(wu.id,#{search})>0
+           or instr(wu.user_phone,#{search})>0 or instr(wu.user_id,#{search})>0
+           or instr(yw.balance,#{search})>0 order by wu.create_time desc
+    </select>
+    <!--修改动力币-->
+    <update id="updateUserWallet">
+        update ylq_wallet set balance=#{balance} where user_id=#{userId}
+    </update>
+    <!--拉黑用户-->
+    <update id="updateUserStatus">
+        update wx_user wu set wu.status=0 where id=#{userId}
+    </update>
+     <!--解封用户-->
+    <update id="updateUserStatusOpen">
+        update wx_user wu set wu.status=1 where id=#{id}
+    </update>
+    <!--根据用户唯一id或者昵称模糊查找用户(商家的添加员工需返回)-->
+    <select id="searchMapWXUserByName" resultType="com.springboot.fun.entity.WxUser" resultMap="BaseResultMap">
+        (select
+            wu.id,
+            wu.user_id,
+            wu.moments_url,
+            wu.user_name,
+            wu.user_phone,
+            wu.user_address,
+            wu.openid,
+            wu.unionid,
+            wu.nickname,
+            wu.subscribe,
+            wu.sex,
+            wu.country,
+            wu.province,
+            wu.city,
+            wu.headimgurl,
+            wu.wxid,
+            wu.opBy,
+            wu.opAt,
+            wu.delFlag,
+            wu.status,
+            wu.p_id,
+            wu.school_id,
+            wu.school_name,
+            wu.sort_rank,
+            wu.remark,
+            wu.create_time,
+            wu.update_time,
+            wu.description,
+            wu.accredit,
+            yw.total_money as totalMoney,
+            yw.balance as coin,
+             wu.member_state,
+             wu.member_start_time,
+             wu.member_deadline_time,
+            (select count(*) from fun_used where wu.user_id=wu.id) as usedNum
+        from wx_user wu
+            LEFT JOIN ylq_wallet yw ON yw.user_id= wu.id
+        where    wu.nickname like  "%"#{search}"%")
+        UNION all(
+        select
+        wu.id,
+        wu.user_id,
+        wu.moments_url,
+        wu.user_name,
+        wu.user_phone,
+        wu.user_address,
+        wu.openid,
+        wu.unionid,
+        wu.nickname,
+        wu.subscribe,
+        wu.sex,
+        wu.country,
+        wu.province,
+        wu.city,
+        wu.headimgurl,
+        wu.wxid,
+        wu.opBy,
+        wu.opAt,
+        wu.delFlag,
+        wu.status,
+        wu.p_id,
+        wu.school_id,
+        wu.school_name,
+        wu.sort_rank,
+        wu.remark,
+        wu.create_time,
+        wu.update_time,
+        wu.description,
+        wu.accredit,
+        yw.total_money as totalMoney,
+        yw.balance as coin,
+            wu.member_state,
+            wu.member_start_time,
+            wu.member_deadline_time,
+        (select count(*) from fun_used where wu.user_id=wu.id) as usedNum
+        from wx_user wu
+        LEFT JOIN ylq_wallet yw ON yw.user_id= wu.id
+        where   instr(wu.user_id,#{search})>0
+        )
+    </select>
+    <!--首页轮播图展示-->
+    <select id="findHomeUrl" resultType="com.springboot.fun.entity.FunHomeUrl"  resultMap="funHomeUrlMap">
+        select
+            id,
+            home_url,
+            home_state,
+            home_school_id,
+            home_path,
+            home_path_type,
+            home_result,
+            create_time,
+            update_time
+        from fun_home_url
+        where home_delete_state=1 and (home_school_id
+        like "%"#{schoolId}"%" or home_state=3)
+    </select>
+    <!--修改用户极光状态-->
+    <update id="updateUserJiGuangState">
+        update wx_user wu set wu.jiguang_state=1,wu.accredit=1 where id=#{id}
+    </update>
+    <!--查询有没有任务表-->
+    <select id="selectylqUserTag" resultType="com.springboot.fun.entity.YlqUserTag" >
+        select
+            id as id,
+            user_id as userId
+        from ylq_user_tag
+        where  user_id=#{id}
+    </select>
+    <!--男生随机拿去5条数据-->
+    <select id="selectTaskList" resultType="String" >
+        SELECT task FROM fun_task_list where type=#{type} and (sex=3 or sex=#{sex}) ORDER BY RAND() LIMIT 1
+    </select>
+    <!--其他人随机拿去5条数据-->
+    <select id="selectTaskListElse" resultType="String" >
+        SELECT task FROM fun_task_list where type=#{type} and (sex=3) ORDER BY RAND() LIMIT 1
+    </select>
+    <!--把这个用户的动态都改为下架-->
+    <update id="updateUsedOut">
+    update fun_used set used_out_state =2 where used_user_id=#{id}
+    </update>
+    <!--修改动力币-->
+    <update id="updateWallet">
+        update ylq_wallet set balance =#{coin} where user_id=#{id}
+    </update>
+    <!--改变用户的校园优选优惠劵状态-->
+    <update id="updateSchoolCoupon">
+        update ylq_user_tag set appointment_success_tag=1 where user_id=#{userId}
+    </update>
+</mapper>

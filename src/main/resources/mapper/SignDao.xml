@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.fun.dao.SignDao">
+
+    <!--用户步数信息-->
+    <resultMap id="stepMap" type="com.springboot.fun.entity.YlqUserStep">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="stepTotal" column="step_total"/>
+        <result property="stepConvert" column="step_convert"/>
+        <result property="day" column="day"/>
+        <result property="version" column="version"/>
+        <result property="status" column="status"/>
+        <result property="sortRank" column="sort_rank"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="description" column="description"/>
+    </resultMap>
+    <!--用户签到信息-->
+    <resultMap id="signMap" type="com.springboot.fun.entity.SignEntity">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="signCount" column="sign_count"/>
+        <result property="signHistory" column="sign_history"/>
+        <result property="status" column="status"/>
+        <result property="sortRank" column="sort_rank"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <!--任务规则配置-->
+    <resultMap id="taskSettingMap" type="com.springboot.fun.entity.YlqTask">
+        <result property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="name" column="name"/>
+        <result property="title" column="title"/>
+        <result property="img" column="img"/>
+        <result property="money" column="money"/>
+        <result property="maxMoney" column="max_money"/>
+        <result property="status" column="status"/>
+        <result property="sortRank" column="sort_rank"/>
+        <result property="remark" column="remark"/>
+
+        <result property="path" column="path"/>
+        <result property="pathType" column="path_type"/>
+        <result property="result" column="result"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <!--用户任务明细-->
+    <resultMap id="userTagMap" type="com.springboot.fun.entity.YlqUserTag">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="newUsedTag" column="new_used_tag"/>
+        <result property="collectionTag" column="collection_tag"/>
+        <result property="newUserRedpacketTag" column="new_user_redpacket_tag"/>
+        <result property="appointmentSuccessTag" column="appointment_success_tag"/>
+        <result property="shareGroupTag" column="share_group_tag"/>
+        <result property="shareSchoolTag" column="share_school_tag"/>
+        <result property="shareGoodTag" column="share_good_tag"/>
+        <result property="wechatAccountTag" column="wechat_account_tag"/>
+        <result property="incentiveVideoTag" column="incentive_video_tag"/>
+        <result property="status" column="status"/>
+        <result property="sortRank" column="sort_rank"/>
+
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="description" column="description"/>
+    </resultMap>
+    <!--小程序端-->
+
+    <!--根据用户id查到用户的openID-->
+    <select id="selectUserOpenId" resultType="String">
+     select openid from wx_user where id=#{userId}
+	</select>
+    <!--查找用户步数情况-->
+    <select id="selectYlqUserSteInf" resultType="com.springboot.fun.entity.YlqUserStep" resultMap="stepMap">
+     select
+        yus.id,
+        yus.user_id,
+        yus.step_total,
+        yus.step_convert,
+        yus.day,
+        yus.version,
+        yus.status,
+        yus.sort_rank,
+        yus.remark,
+        yus.create_time,
+        yus.update_time,
+        yus.description
+     from ylq_user_step yus
+      where yus.user_id=#{userId} and yus.day=#{day}
+	</select>
+    <!--修改步数-->
+    <update id="updateYlqUserSteInfById" parameterType="com.springboot.fun.entity.YlqUserStep">
+        UPDATE ylq_user_step
+        <trim prefix="set" suffixOverrides=",">
+            <if test="stepTotal!=null">step_total=#{stepTotal},</if>
+             <if test="stepConvert!=null">step_convert=#{stepConvert},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+    <!--存步数信息-->
+    <insert id="insertYlqUserSteInf" parameterType="com.springboot.fun.entity.YlqUserStep">
+        insert into ylq_user_step(
+           id,
+          user_id,
+          step_total,
+          step_convert,
+          day,
+          version,
+          status,
+          sort_rank)
+        values(
+            #{id},
+            #{userId},
+            #{stepTotal},
+            #{stepConvert},
+            #{day},
+            #{version},
+            #{status},
+            #{sortRank})
+    </insert>
+    <!--更新钱包-->
+    <update id="addUserCoin" parameterType="Map" >
+    update ylq_wallet set balance=(balance+#{convertMoney}),total_money=(total_money+#{convertMoney}) where user_id=#{userId}
+    </update>
+    <!--查找用户签到信息-->
+    <select id="selectsignEntity" resultType="com.springboot.fun.entity.SignEntity" resultMap="signMap">
+     select
+        id,
+        user_id,
+        sign_count,
+        sign_history,
+        status,
+        sort_rank,
+        remark,
+        create_time,
+        update_time,
+        description
+     from ylq_sign
+      where  user_id=#{id}
+	</select>
+  <!--  修改签到信息-->
+    <update id="updateSignEntityById" parameterType="com.springboot.fun.entity.SignEntity">
+        UPDATE ylq_sign
+        <trim prefix="set" suffixOverrides=",">
+            <if test="signCount!=null">sign_count=#{signCount},</if>
+            <if test="signHistory!=null">sign_history=#{signHistory},</if>
+            <if test="updateTime!=null">update_time=#{updateTime},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+    <!--查找连续签到的天数-->
+    <select id="selectSignSettingEntity" resultType="com.springboot.fun.entity.SignSettingEntity">
+     select
+     yls.money as money,
+     yls.day as day
+      from ylq_sign_setting yls where yls.day=#{lianQian}
+	</select>
+    <!--第一次签到，插入数据-->
+    <insert id="insertSignEntity" parameterType="com.springboot.fun.entity.SignEntity">
+        insert into ylq_sign(
+            id,
+        user_id,
+        sign_count,
+        sign_history,
+        status,
+        sort_rank,
+        remark,
+        description)
+        values(
+            #{id},
+            #{userId},
+            #{signCount},
+            #{signHistory},
+            #{status},
+            #{sortRank},
+            #{remark},
+            #{description})
+    </insert>
+    <!--查找签到配置表-->
+    <select id="selectSettingSign" resultType="com.springboot.fun.entity.SignSettingEntity">
+     select
+      yss.id as id,
+      yss.day as day,
+      yss.money as money,
+      yss.status as status,
+      yss.sort_rank as sortRank,
+      yss.remark as remark,
+      yss.create_time as createTime,
+      yss.update_time as updateTime,
+      yss.description as description
+     from ylq_sign_setting yss order by yss.day
+	</select>
+
+    <!--任务规则配置-->
+    <select id="taskSetting" resultType="com.springboot.fun.entity.YlqTask" resultMap="taskSettingMap">
+     select
+       id,
+      type,
+      name,
+      title,
+      img,
+      money,
+      max_money,
+      status,
+      sort_rank,
+      remark,
+      create_time,
+      update_time,
+      path,
+      path_type,
+      result,
+      description
+     from ylq_task
+      where  status=1
+	</select>
+    <!--查找用户动力币的奖励规则-->
+    <select id="selectTask" resultType="com.springboot.fun.entity.YlqTask" resultMap="taskSettingMap">
+     select
+       yt.id,
+      yt.type,
+      yt.name,
+      yt.title,
+      yt.img,
+      yt.money,
+      yt.max_money,
+      yt.status,
+      yt.sort_rank,
+      yt.remark,
+      yt.create_time,
+      yt.update_time,
+      yt.path,
+      yt.path_type,
+      yt.result,
+      yt.description
+     from ylq_task yt
+      where  /*status=1 and*/ type=#{type}
+	</select>
+    <!--查找用户的任务明细-->
+    <select id="selectUserTag" resultType="com.springboot.fun.entity.YlqUserTag" resultMap="userTagMap">
+     select
+     id
+    user_id,
+    new_used_tag,
+    collection_tag,
+    new_user_redpacket_tag,
+    appointment_success_tag,
+    share_group_tag,
+    share_school_tag,
+    share_good_tag,
+    wechat_account_tag,
+    incentive_video_tag,
+    status,
+    sort_rank,
+    remark,
+    create_time,
+    update_time,
+    description
+     from ylq_user_tag
+      where user_id=#{userId}
+	</select>
+    <!--用户任务明细 返回集合-->
+    <select id="selectUserStep" resultType="com.springboot.fun.entity.YlqUserTag" resultMap="userTagMap">
+     select
+     id,
+    user_id,
+    new_used_tag,
+    collection_tag,
+    new_user_redpacket_tag,
+    appointment_success_tag,
+    share_group_tag,
+    share_school_tag,
+    share_good_tag,
+    wechat_account_tag,
+    incentive_video_tag,
+    status,
+    sort_rank,
+    remark,
+    create_time,
+    update_time,
+    description
+     from ylq_user_tag
+      where user_id=#{userId}
+	</select>
+
+    <!--随机一张图片-->
+    <select id="selectClockUrl" resultType="String" >
+        SELECT clock_url FROM fun_clock  ORDER BY RAND() LIMIT 1
+    </select>
+    <!--随机一段文字-->
+    <select id="selectClockWord" resultType="String" >
+        SELECT clock_word FROM fun_clock  ORDER BY RAND() LIMIT 1
+    </select>
+</mapper>

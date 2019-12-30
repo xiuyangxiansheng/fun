@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.fun.dao.CodeDao">
+
+    <!--商品订单列表-->
+    <resultMap type="com.springboot.fun.entity.FunCommodityOrder" id="CommodityOrderMapList">
+        <result property="id" column="id"/>
+        <result property="commodityId" column="commodity_id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="orderState" column="order_state"/>
+        <result property="orderSupplierName" column="order_supplier_name"/>
+        <result property="orderSupplierImg" column="order_supplier_img"/>
+        <result property="orderSupplierPhone" column="order_supplier_phone"/>
+        <result property="orderSupplierAddress" column="order_supplier_address"/>
+        <result property="orderCommodityName" column="order_commodity_name"/>
+        <result property="orderCommodityImg" column="order_commodity_img"/>
+        <result property="orderSerialNumber" column="order_serial_number"/>
+        <result property="orderExpressNumber" column="order_express_number"/>
+        <result property="orderLogistics" column="order_logistics"/>
+        <result property="orderStorePrice" column="order_store_price"/>
+        <result property="orderSubscribePrice" column="order_subscribe_price"/>
+        <result property="orderPayTime" column="order_pay_time"/>
+        <result property="orderCodeTime" column="order_code_time"/>
+        <result property="orderCode" column="order_code"/>
+        <result property="orderMemberName" column="order_member_name"/>
+        <result property="orderMemberPhone" column="order_member_phone"/>
+        <result property="orderMemberAddress" column="order_member_address"/>
+        <result property="orderGetTime" column="order_get_time"/>
+        <result property="orderLoseTime" column="order_lose_time"/>
+        <result property="orderCoin" column="order_coin"/>
+        <result property="orderMessage" column="order_message"/>
+        <result property="orderSendTime" column="order_send_time"/>
+        <result property="orderPutTime" column="order_put_time"/>
+        <result property="orderType" column="order_type"/>
+        <result property="orderAttribute" column="order_attribute"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="orderCreateTime" column="order_create_time"/>
+        <result property="orderUpdateTime" column="order_update_time"/>
+    </resultMap>
+    <!--员工信息-->
+    <resultMap type="com.springboot.fun.entity.SupplierEmployeeEntity" id="EmployeeMapList">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="loginName" column="login_name"/>
+        <result property="password" column="password"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTiem" column="update_time"/>
+        <result property="description" column="description"/>
+        <result property="wxrealname" column="wxRealName"/>
+        <result property="unionid" column="unionid"/>
+        <result property="wximgurl" column="wxImgurl"/>
+        <result property="nickname" column="nickname"/>
+        <result property="openId" column="open_id"/>
+        <result property="authorization" column="authorization"/>
+    </resultMap>
+<!--核销记录表-->
+    <resultMap type="com.springboot.fun.entity.OrderHexiaoEntity" id="HexiaoMap">
+        <result property="id" column="id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="orderCode" column="order_code"/>
+        <result property="orderId" column="order_id"/>
+        <result property="customerName" column="customer_name"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="customerUrl" column="customer_url"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="pnameId" column="pname_id"/>
+        <result property="pname" column="pname"/>
+        <result property="price" column="price"/>
+        <result property="img" column="img"/>
+        <result property="pnum" column="pnum"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+            <result property="soldTrue" column="soldTrue"/>
+            <result property="pnameStore" column="pnameStore"/>
+            <result property="pnameTime" column="pnameTime"/>
+            <result property="orderSuccessNum" column="orderSuccessNum"/>
+        <result property="userNickName" column="userNickName"/>
+        <result property="userUrl" column="userUrl"/>
+    </resultMap>
+    <!--根据这个订单号，查到校园福利订单信息-->
+    <!-- 根据商品id查看订单详情-->
+    <select id="selectCommodityOrderByOrderNo" resultType="com.springboot.fun.entity.FunCommodityOrder" resultMap="CommodityOrderMapList" >
+       select
+      id,
+      commodity_id,
+      supplier_id,
+      user_id,
+      order_state,
+      order_supplier_name,
+      order_supplier_img,
+      order_supplier_phone,
+      order_supplier_address,
+      order_commodity_name,
+      order_commodity_img,
+      order_serial_number,
+      order_express_number,
+      order_logistics,
+      order_store_price,
+      order_subscribe_price,
+      order_pay_time,
+      order_code_time,
+      order_code,
+      order_member_name,
+      order_member_phone,
+      order_member_address,
+      order_get_time,
+      order_lose_time,
+      order_coin,
+      order_message,
+      order_send_time,
+      order_put_time,
+      order_type,
+      order_attribute,
+      order_number,
+      order_create_time,
+      order_update_time
+        FROM
+        fun_commodity_order fco
+         where fco.order_serial_number=#{scene}
+    </select>
+
+  <!--根据用户id，去员工表里面，查询这个扫描用户的信息-->
+    <select id="selectEmployeeByUserId" resultType="com.springboot.fun.entity.SupplierEmployeeEntity" resultMap="EmployeeMapList" >
+        SELECT
+         id,
+        name,
+        login_name,
+        password,
+        customer_id,
+        supplier_id,
+        create_time,
+        update_time,
+        description,
+        wxRealName,
+        unionid,
+        wxImgurl,
+        nickname,
+        open_id,
+        authorization
+        FROM
+        nideshop_supplier_employee
+         where  customer_id=#{userId} and supplier_id=#{supplierId}
+    </select>
+<!--插入到核销记录表-->
+    <insert id="insertHexiaoInf" parameterType="com.springboot.fun.entity.OrderHexiaoEntity">
+		insert into nideshop_order_hexiao(
+			id,
+        order_no,
+        order_code,
+        order_id,
+        customer_name,
+        customer_id,
+        customer_url,
+        supplier_name,
+        supplier_id,
+        pname_id,
+        pname,
+        price,
+        img)
+		values(
+		    #{id},
+			#{orderNo},
+			#{orderCode},
+			#{orderId},
+			#{customerName},
+			#{customerId},
+			#{customerUrl},
+			#{supplierName},
+			#{supplierId},
+			#{pnameId},
+			#{pname},
+			#{price},
+			#{img})
+	</insert>
+    <!--改变订单状态 已完成-->
+    <update id="updateCommodityOrderState">
+	update fun_commodity_order set order_state=4,order_code_time=now() where id=#{orderId}
+	</update>
+    <!--查看核销列表(一个人有多个商家核销身份)  核销员对应的商家的核销商品-->
+    <select id="findAllSuccessList" resultType="com.springboot.fun.entity.OrderHexiaoEntity" resultMap="HexiaoMap" >
+        SELECT
+        noh.pname_id,
+        noh.pname,
+        noh.price,
+        noh.img,
+        noh.supplier_name,
+        fc.commodity_sold_true as soldTrue,
+        fc.commodity_store as pnameStore,
+        fc.commodity_create_time as pnameTime,
+        (select count(*) from nideshop_order_hexiao where pname_id=fc.id) as orderSuccessNum
+        FROM
+        nideshop_order_hexiao noh
+          LEFT JOIN fun_commodity fc ON fc.id= noh.pname_id
+         /* LEFT JOIN nideshop_supplier ns ON ns.id= noh.supplier_id*/
+          LEFT JOIN nideshop_supplier_employee nse ON nse.supplier_id= noh.supplier_id
+          where   nse.customer_id= #{userId}
+          group by noh.pname_id
+    </select>
+    <!--查看核销人详情-->
+    <select id="findAllSuccessUserList" resultType="com.springboot.fun.entity.OrderHexiaoEntity" resultMap="HexiaoMap" >
+        SELECT
+        noh.customer_name,
+        noh.customer_id,
+        noh.customer_url,
+        noh.create_time,
+        wu.nickname as userNickName,
+        wu.headimgurl as userUrl
+        FROM
+        nideshop_order_hexiao noh
+         LEFT JOIN fun_commodity_order fco  ON fco.id= noh.order_id
+         LEFT JOIN wx_user wu  ON wu.id= fco.user_id
+          where noh.pname_id=#{pnameId}
+    </select>
+
+
+    <!--   快捷核销 根据这个订单号，查到校园福利订单信息-->
+    <select id="selectCommodityOrderByOrderCode" resultType="com.springboot.fun.entity.SchoolOrder"  resultMap="CommodityOrderMapList">
+        SELECT
+      id,
+      commodity_id,
+      supplier_id,
+      user_id,
+      order_state,
+      order_supplier_name,
+      order_supplier_img,
+      order_supplier_phone,
+      order_supplier_address,
+      order_commodity_name,
+      order_commodity_img,
+      order_serial_number,
+      order_express_number,
+      order_logistics,
+      order_store_price,
+      order_subscribe_price,
+      order_pay_time,
+      order_code_time,
+      order_code,
+      order_member_name,
+      order_member_phone,
+      order_member_address,
+      order_get_time,
+      order_lose_time,
+      order_coin,
+      order_message,
+      order_send_time,
+      order_put_time,
+      order_type,
+      order_attribute,
+      order_number,
+      order_create_time,
+      order_update_time
+        FROM
+        fun_commodity_order fco
+         where fco.order_code=#{scene}
+    </select>
+</mapper>

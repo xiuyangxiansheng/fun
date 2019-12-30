@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.fun.dao.UsedDao">
+<!--二手详情-->
+    <resultMap type="com.springboot.fun.entity.Used" id="UsedMap">
+    <result property="id" column="id"/>
+    <result property="usedUserId" column="used_user_id"/>
+    <result property="usedName" column="used_name"/>
+    <result property="usedUrl" column="used_url"/>
+    <result property="usedIssueTime" column="used_issue_time"/>
+    <result property="usedType" column="used_type"/>
+    <result property="usedLike" column="used_like"/>
+        <result property="usedLikeState" column="usedLikeState"/>
+    <result property="usedBrowse" column="used_browse"/>
+    <result property="usedComplain" column="used_complain"/>
+    <result property="usedState" column="used_state"/>
+    <result property="usedReason" column="used_reason"/>
+    <result property="usedPrice" column="used_price"/>
+    <result property="usedLable" column="used_lable"/>
+        <result property="usedTypeName" column="usedTypeName"/>
+    <result property="usedPriceState" column="used_price_state"/>
+    <result property="phone" column="used_phone"/>
+        <result property="usedVideoState" column="used_video_state"/>
+        <result property="usedSort" column="used_sort"/>
+    <result property="usedCreateTime" column="used_create_time"/>
+    <result property="usedUpdateTime" column="used_update_time"/>
+        <result property="usedOutState" column="used_out_state"/>
+    <result property="nickname" column="nickname"/>
+    <result property="sex" column="sex"/>
+    <result property="headimgurl" column="headimgurl"/>
+    <result property="schoolId" column="used_school_id"/>
+    <result property="schoolName" column="schoolName"/>
+    <result property="usedDeleteState" column="used_delete_state"/>
+        <result property="commentNum" column="commentNum"/>
+    </resultMap>
+    <!--二手列表-->
+    <resultMap type="com.springboot.fun.entity.Used" id="UsedMapList">
+        <result property="id" column="id"/>
+        <result property="usedUserId" column="used_user_id"/>
+        <result property="usedName" column="used_name"/>
+        <result property="usedUrl" column="used_url"/>
+        <result property="usedIssueTime" column="used_issue_time"/>
+        <result property="usedType" column="used_type"/>
+        <result property="usedLike" column="used_like"/>
+            <result property="usedLikeState" column="usedLikeState"/>
+        <result property="usedBrowse" column="used_browse"/>
+        <result property="usedComplain" column="used_complain"/>
+        <result property="usedState" column="used_state"/>
+        <result property="usedReason" column="used_reason"/>
+        <result property="usedPrice" column="used_price"/>
+        <result property="usedLableNum" column="used_lable"/>
+        <result property="usedLableNum" column="usedLableNum"/>
+        <result property="usedLable" column="usedLable"/>
+         <result property="usedTypeName" column="usedTypeName"/>
+        <result property="usedPriceState" column="used_price_state"/>
+        <result property="phone" column="used_phone"/>
+        <result property="usedVideoState" column="used_video_state"/>
+        <result property="usedSort" column="used_sort"/>
+        <result property="usedCreateTime" column="used_create_time"/>
+        <result property="usedUpdateTime" column="used_update_time"/>
+        <result property="usedOutState" column="used_out_state"/>
+        <result property="nickname" column="nickname"/>
+        <result property="sex" column="sex"/>
+        <result property="headimgurl" column="headimgurl"/>
+        <result property="schoolId" column="used_school_id"/>
+        <result property="schoolName" column="schoolName"/>
+        <result property="usedDeleteState" column="used_delete_state"/>
+        <result property="commentNum" column="commentNum"/>
+       <!-- entity里面是 private List<UsedComment> commentList;//评论内容 对应这个，就是多对多，-->
+       <!-- <collection property="commentList" ofType="com.springboot.fun.entity.UsedComment">-->
+        <!--评论列表-->
+        <association property="commentList" javaType="com.springboot.fun.entity.UsedComment">
+           <!-- <result property="id" column="id"/>-->
+            <result property="commentUsedId" column="commentUsedId"/>
+            <result property="commentType" column="commentType"/>
+            <result property="commentContent" column="commentContent"/>
+            <result property="commentUserId" column="commentUserId"/>
+            <result property="commentUserName" column="commentUserName"/>
+            <result property="commentUserUrl" column="commentUserUrl"/>
+            <result property="commentUserSex" column="commentUserSex"/>
+            <result property="commentCreateTime" column="commentCreateTime"/>
+            <result property="commentUpdateTime" column="commentUpdateTime"/>
+
+
+           <!-- <result property="commentToUserId" column="commentToUserId"/>
+            <result property="commentToUserId" column="commentToUserId"/>
+            <result property="commentUserToName" column="commentUserToName"/>
+            <result property="commentUserToUrl" column="commentUserToUrl"/>
+            <result property="commentUserToSex" column="commentUserToSex"/>-->
+        </association>
+    </resultMap>
+    <!--个人中心 我的发布-->
+    <resultMap type="com.springboot.fun.entity.Used" id="MyUsedMapList">
+        <result property="id" column="id"/>
+        <result property="usedUserId" column="used_user_id"/>
+        <result property="usedName" column="used_name"/>
+        <result property="usedUrl" column="used_url"/>
+        <result property="usedIssueTime" column="used_issue_time"/>
+        <result property="usedType" column="used_type"/>
+        <result property="usedLike" column="used_like"/>
+        <result property="usedBrowse" column="used_browse"/>
+        <result property="usedComplain" column="used_complain"/>
+        <result property="usedState" column="used_state"/>
+        <result property="usedReason" column="used_reason"/>
+        <result property="usedPrice" column="used_price"/>
+        <result property="usedLableNum" column="used_lable"/>
+        <result property="usedLableNum" column="usedLableNum"/>
+        <result property="usedLable" column="usedLable"/>
+        <result property="usedTypeName" column="usedTypeName"/>
+        <result property="usedPriceState" column="used_price_state"/>
+        <result property="phone" column="used_phone"/>
+        <result property="usedVideoState" column="used_video_state"/>
+        <result property="usedSort" column="used_video_state"/>
+        <result property="usedCreateTime" column="used_create_time"/>
+        <result property="usedUpdateTime" column="used_update_time"/>
+        <result property="usedOutState" column="used_out_state"/>
+
+        <result property="nickname" column="nickname"/>
+        <result property="sex" column="sex"/>
+        <result property="headimgurl" column="headimgurl"/>
+        <result property="schoolId" column="used_school_id"/>
+        <result property="schoolName" column="schoolName"/>
+    </resultMap>
+    <!--二手评论 -->
+    <resultMap id="commentReplyMap" type="com.springboot.fun.entity.UsedCommentReply">
+        <result property="rId" column="rId"/>
+        <result property="commentId" column="comment_id"/>
+        <result property="replyId" column="reply_id"/>
+        <result property="replyType" column="reply_type"/>
+        <result property="commentContentReply" column="comment_content_reply"/>
+        <result property="commentUserIdReply" column="comment_user_id_reply"/>
+        <result property="commentUserSexReply" column="comment_user_sex_reply"/>
+        <result property="commentUserNameReply" column="comment_user_name_reply"/>
+        <result property="commentUserUrlReply" column="comment_user_url_reply"/>
+        <result property="commentToUserIdReply" column="comment_to_user_id"/>
+        <result property="commentToUserSexReply" column="comment_to_user_sex"/>
+        <result property="commentToUserNameReply" column="comment_to_user_name"/>
+        <result property="commentToUserUrlReply" column="comment_to_user_url"/>
+        <result property="commentCreateTimeReply" column="comment_create_time_reply"/>
+        <result property="commentUpdateTimeReply" column="comment_update_time_reply"/>
+    </resultMap>
+
+    <!--二手评论列表分页-->
+    <resultMap id="commentPageMap" type="com.springboot.fun.entity.UsedComment">
+        <result property="id" column="id"/>
+        <result property="subId" column="subId"/>
+        <result property="commentUsedId" column="comment_used_id"/>
+        <result property="commentType" column="comment_type"/>
+        <result property="commentContent" column="comment_content"/>
+        <result property="commentUserId" column="comment_user_id"/>
+        <result property="commentUserName" column="comment_user_name"/>
+        <result property="commentUserUrl" column="comment_user_url"/>
+        <result property="commentUserSex" column="comment_user_sex"/>
+        <result property="commentCreateTime" column="comment_create_time"/>
+        <result property="commentUpdateTime" column="comment_update_time"/>
+        <result property="commentNum" column="commentNum"/>
+        <!--回复列表-->
+        <association property="usedCommentReply" javaType="com.springboot.fun.entity.UsedCommentReply">
+            <result property="rId" column="rId"/>
+            <result property="commentId" column="comment_id"/>
+            <result property="replyId" column="reply_id"/>
+            <result property="replyType" column="reply_type"/>
+
+            <result property="commentContentReply" column="comment_content_reply"/>
+            <result property="commentUserIdReply" column="comment_user_id_reply"/>
+            <result property="commentUserSexReply" column="comment_user_sex_reply"/>
+            <result property="commentUserNameReply" column="comment_user_name_reply"/>
+            <result property="commentUserUrlReply" column="comment_user_url_reply"/>
+
+            <result property="commentToUserIdReply" column="comment_to_user_id"/>
+            <result property="commentToUserSexReply" column="comment_to_user_sex"/>
+            <result property="commentToUserNameReply" column="comment_to_user_name"/>
+            <result property="commentToUserUrlReply" column="comment_to_user_url"/>
+            <result property="commentCreateTimeReply" column="comment_create_time_reply"/>
+            <result property="commentUpdateTimeReply" column="comment_update_time_reply"/>
+        </association>
+    </resultMap>
+<!--二手标签-->
+    <resultMap id="usedLabelMap" type="com.springboot.fun.entity.UsedLabel">
+        <result property="id" column="id"/>
+        <result property="labelType" column="label_type"/>
+        <result property="labelNum" column="label_num"/>
+        <result property="labelName" column="label_name"/>
+        <result property="labelPriceState" column="label_price_state"/>
+        <result property="labelState" column="label_state"/>
+        <result property="labelUrl" column="label_url"/>
+        <result property="labelCreateTime" column="label_create_time"/>
+        <result property="labelUpdateTime" column="label_update_time"/>
+    </resultMap>
+    <!--点赞-->
+    <resultMap id="usedLikeMap" type="com.springboot.fun.entity.UsedLike">
+        <result property="id" column="id"/>
+        <result property="likeUsedId" column="like_used_id"/>
+        <result property="likeUserId" column="like_user_id"/>
+        <result property="likeUserUrl" column="likeUserUrl"/>
+        <result property="likeUserNikeName" column="likeUserNikeName"/>
+        <result property="likeUserDoId" column="like_user_do_id"/>
+        <result property="likeUseDorUrl" column="likeUseDorUrl"/>
+        <result property="likeUserDoNikeName" column="likeUserDoNikeName"/>
+        <result property="likeCreateTime" column="like_create_time"/>
+        <result property="likeUpdateTime" column="like_update_time"/>
+    </resultMap>
+
+<!--查找二手列表-->
+    <select id="finUsedList" resultType="com.springboot.fun.entity.Used" resultMap="UsedMapList"  parameterType="java.util.Map">
+        SELECT
+        fu.id,
+        fu.used_user_id,
+        fu.used_name,
+        fu.used_url,
+        fu.used_issue_time,
+        fu.used_type,
+        fu.used_like,
+         (select count(*) from fun_used_like fulk where fulk.like_used_id=fu.id and fulk.like_user_do_id=#{userId} ) as usedLikeState,
+        fu.used_browse,
+        fu.used_complain,
+        fu.used_state,
+        fu.used_reason,
+        fu.used_price,
+        fu.used_price_state,
+        fu.used_lable as  usedLable,
+          ful.label_name as usedTypeName,
+        fu.used_phone,
+        fu.used_video_state,
+        fu.used_sort,
+        fu.used_create_time,
+        fu.used_update_time,
+        fu.used_out_state,
+        fuc.comment_used_id as commentUsedId,
+        fuc.comment_user_id as commentUserId,
+        fuc.comment_content  as commentContent,
+        fuc.comment_type as commentType,
+        fuc.comment_user_name as commentUserName,
+        fuc.comment_user_sex as commentUserSex,
+        fuc.comment_user_url as commentUserUrl,
+
+        /*wut.nickname as commentUserToName,
+        wut.sex as commentUserToSex,
+        wut.headimgurl as commentUserToUrl,*/
+        (select count(*) from fun_used_comment where comment_used_id =fu.id and comment_delete_state=1) as commentNum,
+        fuc.comment_create_time  as commentCreateTime,
+        fuc.comment_update_time as commentUpdateTime,
+
+        wu.nickname as nickname,
+        wu.sex as sex,
+        wu.headimgurl as headimgurl,
+        fu.used_school_id,
+        fu.used_delete_state,
+        ys.school_name as schoolName
+        /*fuc.comment_content as commentContent*/
+        FROM
+    /*if(fu.used_state=1,'待审核',(if(fu.used_state=2,'审核通过',(if(o.`status`=3,'审核未通过','未知'))))) as statusDes*/
+        fun_used fu
+        LEFT JOIN ylq_school ys ON ys.id =fu.used_school_id
+        LEFT JOIN wx_user wu ON fu.used_user_id = wu.id
+        LEFT JOIN fun_used_label ful ON  fu.used_type =ful.label_num
+        LEFT JOIN (select * from fun_used_comment where /*comment_state=2 and*/ comment_delete_state=1 and comment_create_time in(select min(comment_create_time) from fun_used_comment group by comment_used_id))  fuc ON fu.id = fuc.comment_used_id /*and fuc.comment_create_time =(select min(comment_create_time) from fun_used_comment_copy group by fuc.comment_used_id)*/
+        /*LEFT JOIN wx_user wuu ON fuc.comment_user_id= wuu.id*/
+       /* LEFT JOIN wx_user wut ON fuc.comment_to_user_id= wut.id*/
+         where /*fu.used_state=2 and*/ fu.used_delete_state=1 and fu.used_out_state=1 and fu.used_school_id=#{schoolId} and fu.used_type like concat('%',#{type},'%')
+         order by used_sort,used_create_time desc
+    </select>
+
+<!--查找二手类型-->
+    <select id="selectUsedLabelsType" resultType="com.springboot.fun.entity.UsedLabel" resultMap="usedLabelMap">
+    select id,
+           label_type ,
+           label_num ,
+           label_name ,
+           label_url,
+           label_price_state,
+           label_state,
+           label_create_time,
+           label_update_time
+      from fun_used_label where label_type=1 and label_state=1
+	</select>
+    <!--查找二手标签-->
+    <select id="selectUsedLabelsName" resultType="com.springboot.fun.entity.UsedLabel" resultMap="usedLabelMap">
+     select id,
+           label_type ,
+           label_num ,
+           label_name ,
+           label_url,
+           label_price_state,
+           label_state,
+           label_create_time,
+           label_update_time
+      from fun_used_label where label_type=2
+	</select>
+
+    <!--查找学校id-->
+    <select id="findSchoolIdByUserId" resultType="String">
+    select school_id  from wx_user where id=#{userId}
+	</select>
+
+   <!--用户点赞-->
+    <insert id="insertUsedLike" parameterType="com.springboot.fun.entity.UsedLike">
+		insert into fun_used_like(
+			id,
+			like_used_id,
+			like_user_id,
+			like_user_do_id)
+		values(
+			#{id},
+			#{likeUsedId},
+			#{likeUserId},
+			#{likeUserDoId}
+			 )
+	</insert>
+
+    <!--给发布二手用户赞加一-->
+    <update id="updateUsedLikeAdd">
+	update fun_used set used_like=(used_like+1) where id=#{likeUsedId}
+	</update>
+
+    <!--二手发布详情-->
+    <select id="findUsedById" resultType="com.springboot.fun.entity.Used" resultMap="UsedMap" parameterType="java.util.Map">
+        SELECT
+        fu.id,
+        fu.used_user_id,
+        fu.used_name,
+        fu.used_url,
+        fu.used_issue_time,
+        fu.used_type,
+        fu.used_like,
+        (select count(*) from fun_used_like where like_user_do_id=#{userId} and like_used_id=#{id} ) as usedLikeState,
+        fu.used_browse,
+        fu.used_complain,
+        fu.used_state,
+        fu.used_reason,
+        fu.used_price,
+        fu.used_price_state,
+        fu.used_lable,
+         ful.label_name as usedTypeName,
+        fu.used_phone,
+        fu.used_video_state,
+        fu.used_sort,
+        fu.used_create_time,
+        fu.used_update_time,
+        fu.used_out_state,
+        (select count(*) from fun_used_comment where comment_used_id =fu.id ) as commentNum,
+        wu.nickname as nickname,
+        wu.sex as sex,
+        wu.headimgurl as headimgurl,
+        fu.used_school_id as schoolId,
+        fu.used_delete_state as usedDeleteState,
+        ys.school_name as schoolName
+        FROM
+        fun_used fu
+        LEFT JOIN ylq_school ys ON ys.id =fu.used_school_id
+        LEFT JOIN fun_used_label ful ON  fu.used_type =ful.label_num
+        LEFT JOIN wx_user wu ON fu.used_user_id = wu.id
+         where fu.used_delete_state=1 and  fu.id=#{id}
+    </select>
+    <!--查询点赞列表-->
+    <select id="findUsedLikeById" resultType="com.springboot.fun.entity.UsedLike" resultMap="usedLikeMap">
+    select ful.id,
+           like_used_id ,
+           like_user_id ,
+           wus.nickname as likeUserNikeName,
+           wus.headimgurl as likeUserUrl,
+           like_user_do_id,
+            wud.nickname as likeUserDoNikeName,
+           wud.headimgurl as likeUseDorUrl,
+           like_create_time,
+           like_update_time
+      from fun_used_like ful
+       LEFT JOIN wx_user wus ON ful.like_user_id= wus.id
+      LEFT JOIN wx_user wud ON ful.like_user_do_id= wud.id
+       where ful.like_used_id=#{id} order by like_create_time limit 10
+	</select>
+
+    <!--查询用户发布的评论详情-->
+    <select id="findUsedCommentById" resultType="com.springboot.fun.entity.UsedCommentReply" resultMap="commentReplyMap">
+        select
+        fucr.rId,
+        fucr.comment_id,
+        fucr.reply_id,
+        fucr.reply_type,
+        fucr.comment_content_reply,
+        fucr.comment_user_id_reply,
+        fucr.comment_user_sex_reply,
+        fucr.comment_user_name_reply,
+        fucr.comment_user_url_reply,
+        fucr.comment_to_user_id,
+        fucr.comment_to_user_sex,
+        fucr.comment_to_user_name,
+        fucr.comment_to_user_url,
+        fucr.comment_create_time_reply,
+        fucr.comment_update_time_reply
+      from fun_used_comment_reply fucr
+       where /*comment_reply_state=2 and*/ fucr.comment_id=#{id} and comment_reply_delete_state=1
+       order by  fucr.comment_create_time_reply desc
+	</select>
+
+    <!--给发布二手浏览量加1一-->
+    <update id="updateUsedComplainAdd">
+	update fun_used set used_browse=(used_browse+1) where id=#{id}
+	</update>
+    <!--根据主键id查询用户id-->
+    <select id="selectLikeUserId" resultType="String">
+    select used_user_id  from fun_used where id=#{likeUsedId}
+	</select>
+    <!--获取用户发布所有评论-->
+    <select id="findUsedAllComment" resultType="com.springboot.fun.entity.UsedComment" resultMap="commentPageMap">
+    select
+        fuc.id,
+        fuc.comment_used_id,
+        fuc.comment_type,
+        fuc.comment_content,
+        fuc.comment_user_id,
+        fuc.comment_user_sex,
+        fuc.comment_user_name,
+        fuc.comment_user_url,
+        fuc.comment_create_time,
+        fuc.comment_update_time,
+         (select count(*) from fun_used_comment_reply where comment_id =fuc.id ) as commentNum,
+        fucr.rId,
+        fucr.comment_id,
+        fucr.reply_id,
+        fucr.reply_type,
+        fucr.comment_content_reply,
+        fucr.comment_user_id_reply,
+        fucr.comment_user_sex_reply,
+        fucr.comment_user_name_reply,
+        fucr.comment_user_url_reply,
+        fucr.comment_to_user_id,
+        fucr.comment_to_user_sex,
+        fucr.comment_to_user_name,
+        fucr.comment_to_user_url,
+        fucr.comment_create_time_reply,
+        fucr.comment_update_time_reply
+      from fun_used_comment fuc
+       LEFT JOIN (select * from fun_used_comment_reply where comment_create_time_reply in(select max(comment_create_time_reply) from fun_used_comment_reply where /*comment_reply_state=2 and*/ reply_type=1 group by comment_id) and comment_reply_delete_state=1) fucr ON fucr.comment_id= fuc.id
+       where /*fuc.comment_state =2 and*/ fuc.comment_used_id=#{id} and comment_delete_state=1 order by fuc.comment_create_time desc
+	</select>
+    <!--给用户评论-->
+    <insert id="insertUsedComment" parameterType="com.springboot.fun.entity.UsedComment">
+		insert into fun_used_comment(
+			id,
+            comment_used_id,
+            comment_type,
+            comment_content,
+            comment_user_id,
+            comment_user_sex,
+            comment_user_name,
+            comment_user_url
+			)
+		values(
+			#{id},
+			#{commentUsedId},
+			1,
+			#{commentContent},
+			#{commentUserId},
+			#{commentUserSex},
+			#{commentUserName},
+			#{commentUserUrl})
+	</insert>
+    <!--给用户回复-->
+    <insert id="insertUsedCommentRelpy" parameterType="com.springboot.fun.entity.UsedCommentReply">
+		insert into fun_used_comment_reply(
+			rId,
+            comment_id,
+            reply_id,
+            reply_type,
+            comment_content_reply,
+            comment_user_id_reply,
+            comment_user_sex_reply,
+            comment_user_name_reply,
+            comment_user_url_reply,
+            comment_to_user_id,
+            comment_to_user_sex,
+            comment_to_user_name,
+            comment_to_user_url
+			)
+		values(
+			#{rId},
+			#{commentId},
+			#{replyId},
+			#{replyType},
+			#{commentContentReply},
+			#{commentUserIdReply},
+			#{commentUserSexReply},
+			#{commentUserNameReply},
+			#{commentUserUrlReply},
+			#{commentToUserIdReply},
+			#{commentToUserSexReply},
+			#{commentToUserNameReply},
+			#{commentToUserUrlReply}
+			)
+	</insert>
+    <!--学校查询-->
+    <select id="selectSchoolName" resultType="String">
+    select school_name  from wx_user where id=#{usedUserId}
+	</select>
+    <!--用户发布-->
+    <insert id="insertUsed" parameterType="com.springboot.fun.entity.Used">
+		insert into fun_used(
+			id,
+			used_user_id,
+			used_type,
+			used_lable,
+			used_url,
+			used_name,
+			used_price,
+			used_phone,
+			used_school_id,
+			used_price_state,
+			used_video_state)
+		values(
+		    #{id},
+			#{usedUserId},
+			#{usedType},
+			#{usedLable},
+			#{usedUrl},
+			#{usedName},
+			#{usedPrice},
+			 #{phone},
+			 #{schoolId},
+			 #{usedPriceState},
+			 #{usedVideoState}
+			 )
+	</insert>
+    <!--查询用户是否已经点过赞了-->
+    <select id="selectUsedLikeById" resultType="int" parameterType="java.util.Map">
+     select count(*) from fun_used_like where like_user_do_id=#{likeUserDoId} and like_used_id=#{likeUsedId}
+	</select>
+    <!--个人中心 我的发布-->
+    <select id="findAllSuccessUserList" resultType="com.springboot.fun.entity.Used" resultMap="MyUsedMapList"  parameterType="java.util.Map">
+        SELECT
+        fu.id,
+        fu.used_user_id,
+        fu.used_name,
+        fu.used_url,
+        fu.used_issue_time,
+        fu.used_type,
+        fu.used_like,
+        fu.used_browse,
+        fu.used_complain,
+        fu.used_state,
+        fu.used_reason,
+        fu.used_price,
+        fu.used_price_state,
+        fu.used_lable as  usedLable,
+          ful.label_name as usedTypeName,
+        fu.used_phone,
+        fu.used_video_state,
+        fu.used_sort,
+        fu.used_create_time,
+        fu.used_update_time,
+        fu.used_out_state,
+        fu.used_school_id as schoolId,
+        fu.used_delete_state as usedDeleteState,
+        wu.school_name as schoolName
+        FROM
+        fun_used fu
+        LEFT JOIN wx_user wu ON fu.used_user_id = wu.id
+        LEFT JOIN fun_used_label ful ON  fu.used_type =ful.label_num
+         where fu.used_delete_state=1 and fu.used_user_id=#{userId} order by used_create_time desc
+    </select>
+
+    <!--删除评论-->
+    <update id="deleteComment">
+	update fun_used_comment set comment_delete_state=2 where id=#{commentId}
+	</update>
+    <!--删除回复-->
+    <update id="deleteCommentReply">
+	update fun_used_comment_reply set comment_reply_delete_state=2 where rId=#{commentReply}
+	</update>
+    <!--下架-->
+    <update id="outUsed">
+	update fun_used set used_out_state=2 where id=#{id}
+	</update>
+    <!--上架-->
+    <update id="upUsed">
+	update fun_used set used_out_state=1 where id=#{id}
+	</update>
+    <!--投诉-->
+    <update id="addComplain">
+	update fun_used set used_complain=(used_complain+1) where id=#{id}
+	</update>
+    <!--删除-->
+    <update id="deleteUsed">
+	update fun_used set used_delete_state=2 where id=#{id}
+	</update>
+    <!--获取全部的二手（不分学校）-->
+    <select id="finAllUsedList" resultType="com.springboot.fun.entity.Used" resultMap="UsedMapList"  parameterType="java.util.Map">
+        SELECT
+        fu.id,
+        fu.used_user_id,
+        fu.used_name,
+        fu.used_url,
+        fu.used_issue_time,
+        fu.used_type,
+        fu.used_like,
+        (select count(*) from fun_used_like fulk where fulk.like_used_id=fu.id and fulk.like_user_do_id=#{userId} ) as usedLikeState,
+        fu.used_browse,
+        fu.used_complain,
+        fu.used_state,
+        fu.used_reason,
+        fu.used_price,
+        fu.used_price_state,
+        fu.used_lable as  usedLable,
+          ful.label_name as usedTypeName,
+        fu.used_phone,
+        fu.used_video_state,
+        fu.used_sort,
+        fu.used_create_time,
+        fu.used_update_time,
+        fu.used_out_state,
+        fuc.comment_used_id as commentUsedId,
+        fuc.comment_user_id as commentUserId,
+        fuc.comment_content  as commentContent,
+        fuc.comment_type as commentType,
+        fuc.comment_user_name as commentUserName,
+        fuc.comment_user_sex as commentUserSex,
+        fuc.comment_user_url as commentUserUrl,
+
+        /*wut.nickname as commentUserToName,
+        wut.sex as commentUserToSex,
+        wut.headimgurl as commentUserToUrl,*/
+        (select count(*) from fun_used_comment where comment_used_id =fu.id and comment_delete_state=1) as commentNum,
+        fuc.comment_create_time  as commentCreateTime,
+        fuc.comment_update_time as commentUpdateTime,
+
+        wu.nickname as nickname,
+        wu.sex as sex,
+        wu.headimgurl as headimgurl,
+        fu.used_school_id,
+        fu.used_delete_state,
+        ys.school_name as schoolName
+        /*fuc.comment_content as commentContent*/
+        FROM
+    /*if(fu.used_state=1,'待审核',(if(fu.used_state=2,'审核通过',(if(o.`status`=3,'审核未通过','未知'))))) as statusDes*/
+        fun_used fu
+        LEFT JOIN ylq_school ys ON ys.id =fu.used_school_id
+        LEFT JOIN wx_user wu ON fu.used_user_id = wu.id
+        LEFT JOIN fun_used_label ful ON  fu.used_type =ful.label_num
+        LEFT JOIN (select * from fun_used_comment where /*comment_state=2 and*/ comment_delete_state=1 and comment_create_time in(select min(comment_create_time) from fun_used_comment group by comment_used_id))  fuc ON fu.id = fuc.comment_used_id /*and fuc.comment_create_time =(select min(comment_create_time) from fun_used_comment_copy group by fuc.comment_used_id)*/
+        /*LEFT JOIN wx_user wuu ON fuc.comment_user_id= wuu.id*/
+       /* LEFT JOIN wx_user wut ON fuc.comment_to_user_id= wut.id*/
+         where /*fu.used_state=2 and */fu.used_delete_state=1 and fu.used_out_state=1
+          order by used_sort,used_create_time desc
+    </select>
+
+    <!--获取发布和评论的返回内容-->
+    <select id="findUsedState" resultType="com.springboot.fun.entity.FunUsedState">
+     select
+     used_text as usedText
+      from fun_used_state where used_type=#{type} and used_states=1
+	</select>
+
+<!--     后台
+     二手筛选列表-->
+    <select id="searchUsedList" resultType="com.springboot.fun.entity.Used" resultMap="UsedMap" parameterType="java.util.Map">
+        SELECT
+        fu.id,
+        fu.used_user_id,
+        fu.used_name,
+        fu.used_url,
+        fu.used_issue_time,
+        fu.used_type,
+        fu.used_like,
+        (select count(*) from fun_used_like where like_user_do_id=#{userId} and like_used_id=#{id} ) as usedLikeState,
+        fu.used_browse,
+        fu.used_complain,
+        fu.used_state,
+        fu.used_reason,
+        fu.used_price,
+        fu.used_price_state,
+        fu.used_lable,
+         ful.label_name as usedTypeName,
+        fu.used_phone,
+        fu.used_video_state,
+        fu.used_sort,
+        fu.used_create_time,
+        fu.used_update_time,
+        fu.used_out_state,
+        (select count(*) from fun_used_comment where comment_used_id =fu.id ) as commentNum,
+        wu.nickname as nickname,
+        wu.sex as sex,
+        wu.headimgurl as headimgurl,
+        fu.used_school_id as schoolId,
+        fu.used_delete_state as usedDeleteState,
+        ys.school_name as schoolName
+        FROM
+        fun_used fu
+        LEFT JOIN ylq_school ys ON ys.id =fu.used_school_id
+        LEFT JOIN fun_used_label ful ON  fu.used_type =ful.label_num
+        LEFT JOIN wx_user wu ON fu.used_user_id = wu.id
+         where
+         1=1
+              and (#{schoolId} is null or wu.school_id=#{schoolId})
+              and (#{type} is null or fu.used_type=#{type})
+              and (#{startTime} is null or UNIX_TIMESTAMP(fu.used_create_time) <![CDATA[>=]]> UNIX_TIMESTAMP(#{startTime}))
+              and (#{endTime} is null or UNIX_TIMESTAMP(fu.used_create_time) <![CDATA[<=]]> UNIX_TIMESTAMP(#{endTime}))
+              and (#{content} is null or instr(fu.used_name,#{content})>0)
+              and (#{nickname} is null or instr(wu.nickname,#{nickname})>0)
+               order by fu.used_create_time desc
+    </select>
+
+    <!--给列表刷新的浏览量+1-->
+    <update id="updateUsedComplainListAdd">
+	UPDATE fun_used SET used_browse=(used_browse+1) WHERE id in
+	(SELECT id FROM (SELECT * FROM fun_used ORDER BY used_sort,used_create_time desc LIMIT #{start},#{finish}) AS tt);
+	</update>
+    <!--二手详情-->
+    <select id="searchUsedListById" resultType="com.springboot.fun.entity.Used" resultMap="UsedMap" parameterType="java.util.Map">
+        SELECT
+        fu.id,
+        fu.used_user_id,
+        fu.used_name,
+        fu.used_url,
+        fu.used_issue_time,
+        fu.used_type,
+        fu.used_like,
+        (select count(*) from fun_used_like where like_user_do_id=#{userId} and like_used_id=#{id} ) as usedLikeState,
+        fu.used_browse,
+        fu.used_complain,
+        fu.used_state,
+        fu.used_reason,
+        fu.used_price,
+        fu.used_price_state,
+        fu.used_lable,
+         ful.label_name as usedTypeName,
+        fu.used_phone,
+        fu.used_video_state,
+        fu.used_sort,
+        fu.used_create_time,
+        fu.used_update_time,
+        fu.used_out_state,
+        (select count(*) from fun_used_comment where comment_used_id =fu.id ) as commentNum,
+        wu.nickname as nickname,
+        wu.sex as sex,
+        wu.headimgurl as headimgurl,
+        fu.used_school_id as schoolId,
+        fu.used_delete_state as usedDeleteState,
+        ys.school_name as schoolName
+        FROM
+        fun_used fu
+        LEFT JOIN ylq_school ys ON ys.id =fu.used_school_id
+        LEFT JOIN fun_used_label ful ON  fu.used_type =ful.label_num
+        LEFT JOIN wx_user wu ON fu.used_user_id = wu.id
+         where fu.id=#{id}
+    </select>
+    <!--修改二手类型-->
+    <update id="updateUsedType">
+        UPDATE fun_used_label
+        <trim prefix="set" suffixOverrides=",">
+            <if test="labelName!=null">label_name=#{labelName},</if>
+            <if test="labelPriceState!=null">label_price_state=#{labelPriceState},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+    <!--查找类型编号的最大值-->
+    <select id="selectCommodityType" resultType="int">
+    select  Max(label_num) from fun_used_label where label_type=1
+	</select>
+    <!--添加二手类型-->
+    <insert id="insertUsedType" parameterType="com.springboot.fun.entity.UsedLabel">
+		insert into fun_used_label(
+			id,
+            label_type,
+            label_num,
+            label_name,
+            label_price_state
+            )
+		values(
+			#{id},
+			1,
+			#{labelNum},
+			#{labelName},
+			#{labelPriceState}
+			 )
+	</insert>
+
+    <!--评论未看的-->
+    <select id="selectCommentSum" resultType="int">
+     select count(*) from fun_used_comment fuc
+      LEFT JOIN fun_used fu ON fu.used_user_id=#{userId}
+     where fuc.comment_used_id=fu.id and fuc.comment_look_state=0
+	</select>
+    <!--回复未看的-->
+    <select id="selectReplaySum" resultType="int">
+     select count(*) from fun_used_comment_reply fucr
+      LEFT JOIN fun_used_comment fuc ON fuc.id=fucr.comment_id
+      LEFT JOIN fun_used fu ON fu.used_user_id=#{userId}
+     where fucr.comment_id=fuc.id and fuc.comment_used_id=fu.id and fucr.comment_reply_look_state=0
+	</select>
+
+     <!--点击展示未读内容的消息列表-->
+    <select id="selectCommentReplyList" resultType="com.springboot.fun.entity.UsedCommentReplyMessage" >
+        SELECT
+        fu.id as id,
+        fu.used_user_id as userId,
+        fu.used_name as usedMessage,
+        fuc.id as commentId,
+        fucr.comment_id as replyId,
+        fuc.comment_content as content,
+        fucr.comment_content_reply as contentReply,
+        fuc.comment_user_name as nickName,
+        fuc.comment_user_url as userUrl,
+        fucr.comment_user_name_reply as nickNameReply,
+        fucr.comment_user_url_reply as userUrlReply,
+         fucr.comment_to_user_name as nickNameToReply,
+        fucr.comment_to_user_url as userUrlToReply
+      /*  wu.nickname as nickNameLike,
+        wu.headimgurl as userUrlLike*/
+        FROM
+        fun_used fu
+         /*LEFT JOIN fun_used_like ful ON ful.like_used_id=fu.id and ful.like_look_state=0
+         LEFT JOIN wx_user wu ON ful.like_user_do_id=wu.id*/
+        LEFT JOIN fun_used_comment fuc ON fuc.comment_used_id=fu.id
+        LEFT JOIN fun_used_comment_reply fucr ON fucr.comment_id=fuc.id
+         where  fu.used_user_id=#{userId}  and (fuc.comment_used_id=fu.id and fuc.comment_look_state=0 or (fuc.comment_look_state=1 and fucr.comment_reply_look_state=0))
+
+    </select>
+   <!-- 把评论消息改为已读-->
+    <update id="updateCommentMessage">
+    UPDATE fun_used_comment fuc left join fun_used fu on
+     fu.id = fuc.comment_used_id SET fuc.comment_look_state = 1
+    where fu.used_user_id=#{userId}
+	</update>
+     <!--把回复消息改为已读-->
+    <update id="updateReplayMessage">
+    UPDATE fun_used_comment_reply fucr
+    left join fun_used_comment fuc on fucr.comment_id=fuc.id
+    left join fun_used fu on fu.id = fuc.comment_used_id
+      SET fucr.comment_reply_look_state = 1
+    where fu.used_user_id=#{userId}
+	</update>
+
+    <!--上架二手类型-->
+    <update id="upUsedType">
+	update fun_used_label set label_state=1 where id=#{id}
+	</update>
+    <!--下架二手类型-->
+    <update id="outUsedType">
+	update fun_used_label set label_state=0 where id=#{id}
+	</update>
+    <!--置顶-->
+    <update id="stickUsed">
+	update fun_used set used_sort=1 where id=#{id}
+	</update>
+    <!--取消置顶-->
+    <update id="cancelStickUsed">
+	update fun_used set used_sort=10 where id=#{id}
+	</update>
+<!--二手类型展示-->
+    <select id="findUsedTypeList" resultType="com.springboot.fun.entity.UsedLabel" resultMap="usedLabelMap">
+    select id,
+           label_type ,
+           label_num ,
+           label_name ,
+           label_url,
+           label_price_state,
+           label_state,
+           label_create_time,
+           label_update_time
+      from fun_used_label where label_type=1
+	</select>
+    <!--获取商品分类-->
+    <select id="finCommodityType" resultType="com.springboot.fun.entity.UsedLabel" resultMap="usedLabelMap">
+    select id,
+           label_type ,
+           label_num ,
+           label_name ,
+           label_url,
+           label_price_state,
+           label_state,
+           label_create_time,
+           label_update_time
+      from fun_used_label where label_type=5 and label_state=1
+	</select>
+</mapper>

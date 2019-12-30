@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.fun.dao.MeDao">
+<!--获取formid-->
+    <resultMap type="com.springboot.fun.entity.UserFormEntity" id="UserFormEntityMap">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="formId" column="form_id"/>
+        <result property="formIdInvalidTime" column="form_id_invalid_time"/>
+        <result property="type" column="type"/>
+        <result property="status" column="status"/>
+        <result property="sortRank" column="sort_rank"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="description" column="description"/>
+        <result property="openid" column="openid"/>
+    </resultMap>
+    <!--用户地址管理-->
+    <update id="insertUserAddress" parameterType="com.springboot.fun.entity.WxUser">
+        UPDATE wx_user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userName!=null">user_name=#{userName},</if>
+            <if test="userPhone!=null">user_phone=#{userPhone},</if>
+            <if test="userAddress!=null">user_address=#{userAddress},</if>
+        </trim>
+        WHERE id=#{userId}
+    </update>
+    <!--商务合作-->
+    <insert id="insertCooperation" parameterType="com.springboot.fun.entity.FunCooperation">
+        insert into fun_cooperation(
+            id,
+            userId,
+            userName,
+            userPhone,
+            type
+              )
+        values(
+            #{id},
+             #{userId},
+            #{userName},
+            #{userPhone},
+            #{type}
+        )
+    </insert>
+
+    <!--意见建议-->
+    <insert id="insertOpinion" parameterType="com.springboot.fun.entity.FunOpinion">
+        insert into fun_opinion(
+            id,
+             userId,
+            userOpinion,
+            userQQ,
+            userPhone
+              )
+        values(
+            #{id},
+             #{userId},
+            #{userOpinion},
+            #{userQQ},
+            #{userPhone}
+        )
+    </insert>
+    <!--获取formid-->
+    <insert id="insertFormId" parameterType="com.springboot.fun.entity.UserFormEntity">
+        insert into ylq_user_form(
+            id,
+            user_id,
+            form_id,
+            form_id_invalid_time,
+            type,
+            status
+              )
+        values(
+            #{id},
+            #{userId},
+            #{formId},
+            #{formIdInvalidTime},
+            #{type},
+            #{status}
+        )
+    </insert>
+    <!--修改用户的朋友圈配图-->
+    <update id="updateUserMomentsUrl">
+	update wx_user set moments_url=#{momentsUrl} where id=#{id}
+	</update>
+
+    <!-- 商务合作 -->
+    <select id="selectCooperation" resultType="com.springboot.fun.entity.FunCooperation" >
+    select fc.id as id,
+            fc.userId as userId,
+           fc.userName as userName,
+           fc.userPhone as userPhone,
+           fc.type as type,
+           fc.remark as remark,
+           fc.createTime as createTime,
+           fc.updateTime  as updateTime,
+           wu.nickname as nickName,
+           wu.headimgurl as userUrl,
+           wu.city as city,
+           wu.school_name as schoolName
+      from fun_cooperation fc
+       LEFT JOIN wx_user wu ON fc.userId = wu.id
+      where
+         1=1
+              and (#{schoolId} is null or wu.school_id=#{schoolId})
+              and (#{search} is null or instr(userName,#{search})>0  or instr(userPhone,#{search})>0)
+	</select>
+    <!--意见建议 -->
+    <select id="selectOpinion" resultType="com.springboot.fun.entity.FunOpinion" >
+    select fo.id as id,
+            fo.userId as userId,
+           fo.userOpinion as userOpinion,
+           fo.userQQ as userQQ,
+           fo.userPhone as userPhone,
+           fo.remark as remark,
+           fo.createTime as createTime,
+           fo.updateTime  as updateTime,
+           wu.nickname as nickName,
+           wu.headimgurl as userUrl,
+           wu.city as city,
+           wu.school_name as schoolName
+      from fun_opinion fo
+        LEFT JOIN wx_user wu ON fo.userId = wu.id
+        where
+         1=1
+              and (#{schoolId} is null or wu.school_id=#{schoolId})
+              and (#{search} is null or instr(userOpinion,#{search})>0  or instr(userQQ,#{search})>0
+        or instr(userPhone,#{search})>0)
+	</select>
+
+    <!--查看会员的配置信息-->
+    <select id="selectMemberDeploy" resultType="com.springboot.fun.entity.FunMemberDeploy" >
+     select
+     id as id,
+    member_number as memberNumber,
+    member_day as  memberDay
+        FROM
+        fun_member_deploy
+    </select>
+
+    <!--把这个用户的邀请人数兑换的置为已兑换-->
+    <update id="updateUserMemberNum">
+	update ylq_friend set status=0 where user_id=#{userId} and status=1  order by create_time limit #{DeployMemberNumber}
+	</update>
+    <!--用户修改为会员，修改兑换时间和截止时间-->
+    <update id="updateWxuser">
+	update wx_user set member_state=1,member_start_time=#{memberStartTime},member_deadline_time=#{memberDeadlineTime} where id=#{id}
+	</update>
+    <!--修改用户的会员状态为不是会员-->
+    <update id="updateWxuserMemberState">
+	update wx_user set member_state=0 where id=#{id}
+	</update>
+</mapper>

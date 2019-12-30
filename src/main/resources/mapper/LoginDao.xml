@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.fun.dao.LoginDao">
+    <!--登录-->
+    <select id="findAdminByNum" parameterType="string" resultType="com.springboot.fun.entity.Admin">
+ 		select id as id,
+ 		admin_id as adminId,
+        admin_num as adminNum,
+        admin_password as password,
+        admin_create_time as createTime
+ 		from admin_user
+ 		where admin_num = #{adminNum}
+ 	</select>
+
+    <!--修改密码 -->
+    <update id="updateAdmin">
+        UPDATE admin_user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="password!=null">admin_password=#{password},</if>
+        </trim>
+        WHERE admin_num=#{adminNum}
+    </update>
+</mapper>

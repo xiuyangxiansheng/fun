@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.fun.dao.ShopGoodDao">
+
+    <!--好物兑换列表-->
+    <resultMap type="com.springboot.fun.entity.ShopGood" id="ShopGoodMapList">
+        <result property="id" column="id"/>
+        <result property="goodName" column="good_name"/>
+        <result property="goodLitimg" column="good_litimg"/>
+        <result property="goodImg" column="good_img"/>
+        <result property="goodTypeNum" column="good_type_num"/>
+            <result property="goodTypeName" column="goodTypeName"/>
+        <result property="goodStore" column="good_store"/>
+        <result property="goodCashTrue" column="good_cash_true"/>
+        <result property="goodCashVirtual" column="good_cash_virtual"/>
+        <result property="goodCoin" column="good_coin"/>
+        <result property="goodText" column="good_text"/>
+        <result property="goodPlatform" column="good_platform"/>
+        <result property="goodUrl" column="good_url"/>
+        <result property="goodSpec" column="good_spec"/>
+        <result property="goodMoney" column="good_money"/>
+        <result property="goodState" column="good_state"/>
+        <result property="goodCreateTime" column="good_create_time"/>
+         <result property="goodUpdateTime" column="good_update_time"/>
+    </resultMap>
+    <!--获取好物兑换分类-->
+    <resultMap id="shopGoodType" type="com.springboot.fun.entity.ShopGoodType">
+        <result property="id" column="id"/>
+        <result property="typeNum" column="type_num"/>
+        <result property="typeName" column="type_name"/>
+        <result property="typeUpdateTime" column="type_update_time"/>
+        <result property="typeCreateTime" column="type_create_time"/>
+    </resultMap>
+    <!--好物兑换订单列表-->
+    <resultMap type="com.springboot.fun.entity.GoodOrder" id="ShopGoodOrderMapList">
+        <result property="id" column="id"/>
+        <result property="orderGoodId" column="order_good_id"/>
+        <result property="orderUserId" column="order_user_id"/>
+        <result property="orderName" column="order_name"/>
+        <result property="orderLitimg" column="order_litimg"/>
+        <result property="orderSerialNumber" column="order_serial_number"/>
+        <result property="orderExpressNumber" column="order_express_number"/>
+        <result property="orderLogistics" column="order_logistics"/>
+        <result property="orderState" column="order_state"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="orderMessage" column="order_message"/>
+        <result property="orderCoin" column="order_coin"/>
+        <result property="orderTypeNum" column="order_type_num"/>
+        <result property="orderType" column="order_type"/>
+        <result property="orderPayTime" column="order_pay_time"/>
+        <result property="orderMemberName" column="order_member_name"/>
+        <result property="orderMemberPhone" column="order_member_phone"/>
+        <result property="orderMemberAddress" column="order_member_address"/>
+        <result property="orderSendTime" column="order_send_time"/>
+        <result property="orderPutTime" column="order_put_time"/>
+        <result property="orderUpdateTime" column="order_update_time"/>
+        <result property="orderCreateTime" column="order_create_time"/>
+    </resultMap>
+    <!--查找好物兑换列表-->
+    <select id="finGoodShopList" resultType="com.springboot.fun.entity.ShopGood" resultMap="ShopGoodMapList" >
+        SELECT
+        fsg.id,
+        fsg.good_name,
+        fsg.good_litimg,
+        fsg.good_img,
+        fsg.good_type_num,
+        fsgt.type_name as goodTypeName,
+        fsg.good_store,
+        fsg.good_cash_true,
+        fsg.good_cash_virtual,
+        fsg.good_coin,
+        fsg.good_text,
+        fsg.good_platform,
+        fsg.good_url,
+        fsg.good_spec,
+        fsg.good_money,
+        fsg.good_state,
+        fsg.good_create_time,
+        fsg.good_update_time
+        FROM
+        fun_shop_good fsg
+        LEFT JOIN fun_shop_good_type fsgt ON fsg.good_type_num =fsgt.type_num
+         where fsg.good_state=1  and fsg.good_type_num like concat('%',#{type},'%') order by good_create_time desc
+    </select>
+    <!--根据商品id查看好物兑换商品详情-->
+    <select id="findShopGoodById" resultType="com.springboot.fun.entity.ShopGood" resultMap="ShopGoodMapList" >
+        SELECT
+        fsg.id,
+        fsg.good_name,
+        fsg.good_litimg,
+        fsg.good_img,
+        fsg.good_type_num,
+        fsgt.type_name as goodTypeName,
+        fsg.good_store,
+        fsg.good_cash_true,
+        fsg.good_cash_virtual,
+        fsg.good_coin,
+        fsg.good_text,
+        fsg.good_platform,
+        fsg.good_url,
+        fsg.good_spec,
+        fsg.good_money,
+        fsg.good_state,
+        fsg.good_create_time,
+        fsg.good_update_time
+        FROM
+        fun_shop_good fsg
+        LEFT JOIN fun_shop_good_type fsgt ON fsg.good_type_num =fsgt.type_num
+         where fsg.id=#{id}
+    </select>
+    <!--获取好物兑换分类-->
+    <select id="findShopGoodType" resultType="com.springboot.fun.entity.ShopGoodType" resultMap="shopGoodType">
+    select id,
+           type_num ,
+           type_name ,
+           type_update_time,
+           type_create_time
+      from fun_shop_good_type
+	</select>
+
+
+<!-- 立即兑换-->
+
+   <!--查找是否以前兑换过(次数+时间限制)&#45;&#45;好物兑换不限次数，查找动力币是否足够  减库存， 减去动力币， 生成订单，销量加一，动力币明细-->
+    <!--查找用户动力币是否足够-->
+    <select id="selectUserCoin" resultType="decimal">
+    select balance  from ylq_wallet where user_id=#{userId}
+	</select>
+    <!--查找库存是否足够-->
+    <select id="selectStore" resultType="int">
+    select good_store  from fun_shop_good where id=#{orderGoodId}
+	</select>
+    <!--减库存-->
+    <update id="updateShopGoodStore">
+    update fun_shop_good set good_store=(good_store-1) where id=#{orderGoodId}
+    </update>
+    <!--减动力币-->
+    <update id="updateUserCoin" parameterType="Map" >
+    update ylq_wallet set balance=(balance-#{orderCoin}) where user_id=#{userId}
+    </update>
+    <!--生成订单-->
+    <insert id="insertShopGoodOrder" parameterType="com.springboot.fun.entity.GoodOrder">
+		insert into fun_good_order
+				  (id,
+				order_good_id,
+				order_user_id,
+				 order_name,
+				 order_litimg,
+				 order_serial_number,
+				 order_number,
+				 order_message,
+				 order_coin,
+				 order_type_num,
+				 order_type,
+				 order_member_name,
+				 order_member_phone,
+				 order_member_address)
+	    values (#{id},
+	              #{orderGoodId},
+	              #{orderUserId},
+	              #{orderName},
+	              #{orderLitimg},
+	              #{orderSerialNumber},
+	              #{orderNumber},
+	              #{orderMessage},
+	              #{orderCoin},
+	              #{orderTypeNum},
+	              #{orderType},
+	              #{orderMemberName},
+	              #{orderMemberPhone},
+	              #{orderMemberAddress}
+	              )
+	</insert>
+    <!--已兑换（真实，虚拟加1）-->
+    <update id="updateShopGoodCash">
+    update fun_shop_good set good_cash_true=(good_cash_true+1),good_cash_virtual=(good_cash_virtual+1) where id=#{orderGoodId}
+    </update>
+    <!--生成动力币明细-->
+    <insert id="insertCoinInf" parameterType="Map">
+		insert into ylq_wallet_detail
+				  (id,
+				user_id,
+				money,
+				 balance,
+				 state,
+				 type,
+				 order_id,
+				 remark)
+	    values (#{id},
+	              #{userId},
+	              #{orderCoin},
+	              #{balance},
+	              #{state},
+	              #{type},
+	              #{orderId},
+	              #{remark}
+	              )
+	</insert>
+
+    <!--查找好物兑换订单列表 全部-->
+    <select id="finGoodShopOrderAllList" resultType="com.springboot.fun.entity.GoodOrder" resultMap="ShopGoodOrderMapList" >
+        SELECT
+                id,
+                order_good_id,
+                order_user_id,
+                order_name,
+                order_litimg,
+                order_serial_number,
+                order_express_number,
+                order_logistics,
+                order_state,
+                order_number,
+                order_message,
+                order_coin,
+                order_type_num,
+                order_type,
+                order_pay_time,
+                order_member_name,
+                order_member_phone,
+                order_member_address,
+                order_send_time,
+                order_put_time,
+                order_update_time,
+                order_create_time
+        FROM
+        fun_good_order order by order_create_time desc
+    </select>
+    <!--查找好物兑换订单列表  type-->
+    <select id="finGoodShopOrderList" resultType="com.springboot.fun.entity.GoodOrder" resultMap="ShopGoodOrderMapList" >
+        SELECT
+                id,
+                order_good_id,
+                order_user_id,
+                order_name,
+                order_litimg,
+                order_serial_number,
+                order_express_number,
+                order_logistics,
+                order_state,
+                order_number,
+                order_message,
+                order_coin,
+                order_type_num,
+                order_type,
+                order_pay_time,
+                order_member_name,
+                order_member_phone,
+                order_member_address,
+                order_send_time,
+                order_put_time,
+                order_update_time,
+                order_create_time
+        FROM
+        fun_good_order
+        where order_state=#{type}  order by order_create_time desc
+    </select>
+    <!--根据商品id查看好物兑换订单详情 -->
+    <select id="finGoodShopOrderById" resultType="com.springboot.fun.entity.GoodOrder" resultMap="ShopGoodOrderMapList" >
+        SELECT
+                id,
+                order_good_id,
+                order_user_id,
+                order_name,
+                order_litimg,
+                order_serial_number,
+                order_express_number,
+                order_logistics,
+                order_state,
+                order_number,
+                order_message,
+                order_coin,
+                order_type_num,
+                order_type,
+                order_pay_time,
+                order_member_name,
+                order_member_phone,
+                order_member_address,
+                order_send_time,
+                order_put_time,
+                order_update_time,
+                order_create_time
+        FROM
+        fun_good_order
+        where id=#{id}
+    </select>
+    <!--确认收货-->
+    <update id="receiveGoodShop">
+    update fun_good_order set order_state=3 where id=#{id}
+    </update>
+    <!-- 分享商品-->
+    <update id="shareGoodShop">
+    update nideshop_supplier set share_num=(share_num+1),share_true_num=(share_true_num+1) where id=#{id}
+    </update>
+    <!-- 根据商品id，商品名称模糊搜索好物兑换商品-->
+    <select id="searchShopGoodById" resultType="com.springboot.fun.entity.ShopGood" resultMap="ShopGoodMapList" >
+        SELECT
+        fsg.id,
+        fsg.good_name,
+        fsg.good_litimg,
+        fsg.good_img,
+        fsg.good_type_num,
+        fsgt.type_name as goodTypeName,
+        fsg.good_store,
+        fsg.good_cash_true,
+        fsg.good_cash_virtual,
+        fsg.good_coin,
+        fsg.good_text,
+        fsg.good_platform,
+        fsg.good_url,
+        fsg.good_spec,
+        fsg.good_money,
+        fsg.good_state,
+        fsg.good_create_time,
+        fsg.good_update_time
+        FROM
+        fun_shop_good fsg
+        LEFT JOIN fun_shop_good_type fsgt ON fsg.good_type_num =fsgt.type_num
+         where (instr(fsg.good_name,#{search})=1 or instr(fsg.id,#{search})=1)
+    </select>
+</mapper>

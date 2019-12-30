@@ -1,0 +1,845 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.fun.dao.CommodityDao">
+
+    <!--商品列表-->
+    <resultMap type="com.springboot.fun.entity.FunCommodity" id="CommodityMapList">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="commodityName" column="commodity_name"/>
+        <result property="commodityLitimg" column="commodity_litimg"/>
+        <result property="commodityImg" column="commodity_img"/>
+        <result property="commodityAttributeState" column="commodity_attribute_state"/>
+        <result property="commodityType" column="commodity_type"/>
+        <result property="commodityStorePrice" column="commodity_store_price"/>
+        <result property="commoditySubscribePrice" column="commodity_subscribe_price"/>
+        <result property="commodityStore" column="commodity_store"/>
+        <result property="commoditySoldTrue" column="commodity_sold_true"/>
+        <result property="commoditySoldVirtual" column="commodity_sold_virtual"/>
+        <result property="commodityState" column="commodity_state"/>
+        <result property="commodityDeadline" column="commodity_deadline"/>
+        <result property="commodityIndate" column="commodity_indate"/>
+        <result property="commodityCoin" column="commodity_coin"/>
+        <result property="commodityNumber" column="commodity_number"/>
+        <result property="commoditySort" column="commodity_sort"/>
+        <result property="commodityRole" column="commodity_role"/>
+        <result property="commodityText" column="commodity_text"/>
+        <result property="commodityMemberList" column="commodity_member_list"/>
+        <result property="commodityGetTime" column="commodity_get_time"/>
+        <result property="commodityGetDeadline" column="commodity_get_deadline"/>
+        <result property="commodityCreateTime" column="commodity_create_time"/>
+        <result property="commodityUpdateTime" column="commodity_update_time"/>
+        <result property="supplierName" column="supplierName"/>
+        <result property="commodityMemberState" column="commodity_member_state"/>
+    </resultMap>
+    <!--商品订单列表-->
+    <resultMap type="com.springboot.fun.entity.GoodOrder" id="ShopGoodOrderMapList">
+        <result property="id" column="id"/>
+        <result property="orderGoodId" column="order_good_id"/>
+        <result property="orderUserId" column="order_user_id"/>
+        <result property="orderName" column="order_name"/>
+        <result property="orderLitimg" column="order_litimg"/>
+        <result property="orderSerialNumber" column="order_serial_number"/>
+        <result property="orderExpressNumber" column="order_express_number"/>
+        <result property="orderLogistics" column="order_logistics"/>
+        <result property="orderState" column="order_state"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="orderMessage" column="order_message"/>
+        <result property="orderCoin" column="order_coin"/>
+        <result property="orderTypeNum" column="order_type_num"/>
+        <result property="orderType" column="order_type"/>
+        <result property="orderPayTime" column="order_pay_time"/>
+        <result property="orderMemberName" column="order_member_name"/>
+        <result property="orderMemberPhone" column="order_member_phone"/>
+        <result property="orderMemberAddress" column="order_member_address"/>
+        <result property="orderSendTime" column="order_send_time"/>
+        <result property="orderPutTime" column="order_put_time"/>
+        <result property="orderUpdateTime" column="order_update_time"/>
+        <result property="orderCreateTime" column="order_create_time"/>
+        <result property="orderCoin" column="order_coin"/>
+        <result property="orderTypeNum" column="order_type_num"/>
+        <result property="orderType" column="order_type"/>
+        <result property="orderPayTime" column="order_pay_time"/>
+        <result property="orderMemberName" column="order_member_name"/>
+        <result property="orderMemberPhone" column="order_member_phone"/>
+        <result property="orderMemberAddress" column="order_member_address"/>
+        <result property="orderSendTime" column="order_send_time"/>
+        <result property="orderPutTime" column="order_put_time"/>
+        <result property="orderUpdateTime" column="order_update_time"/>
+        <result property="orderCreateTime" column="order_create_time"/>
+    </resultMap>
+    <!--商家列表-->
+    <resultMap type="com.springboot.fun.entity.NideShopSupplier" id="NideShopSupplierList">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="contactMobie" column="contact_mobie"/>
+        <result property="primaryPicUrl" column="primary_pic_url"/>
+        <result property="thumbnailUrl" column="thumbnail_url"/>
+        <result property="introduction" column="introduction"/>
+        <result property="openTime" column="open_time"/>
+        <result property="schoolId" column="school_id"/>
+        <result property="schoolName" column="school_name"/>
+        <result property="browseNum" column="browse_num"/>
+        <result property="browseTrueNum" column="browse_true_num"/>
+        <result property="shareNum" column="share_num"/>
+        <result property="shareTrueNum" column="share_true_num"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="label" column="label"/>
+    </resultMap>
+<!--商品订单列表-->
+    <resultMap type="com.springboot.fun.entity.FunCommodityOrder" id="CommodityOrderMapList">
+        <result property="id" column="id"/>
+        <result property="commodityId" column="commodity_id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="orderState" column="order_state"/>
+        <result property="orderSupplierName" column="order_supplier_name"/>
+        <result property="orderSupplierImg" column="order_supplier_img"/>
+        <result property="orderSupplierPhone" column="order_supplier_phone"/>
+        <result property="orderSupplierAddress" column="order_supplier_address"/>
+        <result property="orderCommodityName" column="order_commodity_name"/>
+        <result property="orderCommodityImg" column="order_commodity_img"/>
+        <result property="orderSerialNumber" column="order_serial_number"/>
+        <result property="orderExpressNumber" column="order_express_number"/>
+        <result property="orderLogistics" column="order_logistics"/>
+        <result property="orderStorePrice" column="order_store_price"/>
+        <result property="orderSubscribePrice" column="order_subscribe_price"/>
+        <result property="orderPayTime" column="order_pay_time"/>
+        <result property="orderCodeTime" column="order_code_time"/>
+        <result property="orderCode" column="order_code"/>
+        <result property="orderMemberName" column="order_member_name"/>
+        <result property="orderMemberPhone" column="order_member_phone"/>
+        <result property="orderMemberAddress" column="order_member_address"/>
+        <result property="orderGetTime" column="order_get_time"/>
+        <result property="orderLoseTime" column="order_lose_time"/>
+        <result property="orderCoin" column="order_coin"/>
+        <result property="orderMessage" column="order_message"/>
+        <result property="orderSendTime" column="order_send_time"/>
+        <result property="orderPutTime" column="order_put_time"/>
+        <result property="orderType" column="order_type"/>
+        <result property="orderAttribute" column="order_attribute"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="orderCreateTime" column="order_create_time"/>
+        <result property="orderUpdateTime" column="order_update_time"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="nickName" column="nickName"/>
+    </resultMap>
+    <!--查找商品列表-->
+    <select id="findCommodityList" resultType="com.springboot.fun.entity.FunCommodity" resultMap="CommodityMapList" >
+        SELECT
+        fc.id,
+        fc.supplier_id,
+        fc.commodity_name,
+        fc.commodity_litimg,
+        fc.commodity_img,
+        fc.commodity_attribute_state,
+        fc.commodity_type,
+        fc.commodity_store_price,
+        fc.commodity_subscribe_price,
+        fc.commodity_store,
+        fc.commodity_sold_true,
+        fc.commodity_sold_virtual,
+        fc.commodity_state,
+        fc.commodity_deadline,
+        fc.commodity_indate,
+        fc.commodity_coin,
+        fc.commodity_number,
+        fc.commodity_role,
+        fc.commodity_text,
+        commodity_sort,
+        commodity_member_list,
+        fc.commodity_get_time,
+        fc.commodity_get_deadline,
+        fc.commodity_create_time,
+        fc.commodity_update_time,
+        ns.name as supplierName,
+        fc.commodity_member_state
+        FROM
+        fun_commodity fc
+         LEFT JOIN nideshop_supplier ns ON fc.supplier_id =ns.id
+        LEFT JOIN wx_user wu ON #{userId} =wu.id
+        LEFT JOIN fun_school_supplier fss ON fss.supplier_id =fc.supplier_id
+         where  1=1
+              and (#{type} is null or fc.commodity_type=#{type})
+              and fc.commodity_state=1 and wu.school_id=fss.school_id
+         order by commodity_sort
+    </select>
+    <!--获取会员列表-->
+    <select id="findMemberCommodityList" resultType="com.springboot.fun.entity.FunCommodity" resultMap="CommodityMapList" >
+        SELECT
+        fc.id,
+        fc.supplier_id,
+        fc.commodity_name,
+        fc.commodity_litimg,
+        fc.commodity_img,
+        fc.commodity_attribute_state,
+        fc.commodity_type,
+        fc.commodity_store_price,
+        fc.commodity_subscribe_price,
+        fc.commodity_store,
+        fc.commodity_sold_true,
+        fc.commodity_sold_virtual,
+        fc.commodity_state,
+        fc.commodity_deadline,
+        fc.commodity_indate,
+        fc.commodity_coin,
+        fc.commodity_number,
+        fc.commodity_role,
+        fc.commodity_text,
+        commodity_sort,
+        commodity_member_list,
+        fc.commodity_get_time,
+        fc.commodity_get_deadline,
+        fc.commodity_create_time,
+        fc.commodity_update_time,
+        ns.name as supplierName,
+        fc.commodity_member_state
+        FROM
+        fun_commodity fc
+         LEFT JOIN nideshop_supplier ns ON fc.supplier_id =ns.id
+        LEFT JOIN wx_user wu ON #{userId} =wu.id
+        LEFT JOIN fun_school_supplier fss ON fss.supplier_id =fc.supplier_id
+         where  commodity_member_state=1 and fc.commodity_state=1 and wu.school_id=fss.school_id
+         order by commodity_sort
+    </select>
+    <!--根据商品id查看商品详情-->
+    <select id="findCommodityInf" resultType="com.springboot.fun.entity.FunCommodity" resultMap="CommodityMapList" >
+    SELECT
+    fc.id,
+    fc.supplier_id,
+    fc.commodity_name,
+    fc.commodity_litimg,
+    fc.commodity_img,
+    fc.commodity_attribute_state,
+    fc.commodity_type,
+    fc.commodity_store_price,
+    fc.commodity_subscribe_price,
+    fc.commodity_store,
+    fc.commodity_sold_true,
+    fc.commodity_sold_virtual,
+    fc.commodity_state,
+    fc.commodity_deadline,
+    fc.commodity_indate,
+    fc.commodity_coin,
+    fc.commodity_number,
+    fc.commodity_role,
+    fc.commodity_text,
+    commodity_sort,
+    commodity_member_list,
+    fc.commodity_get_time,
+    fc.commodity_get_deadline,
+    fc.commodity_create_time,
+    fc.commodity_update_time,
+    fc.commodity_member_state
+    FROM
+    fun_commodity fc
+    where fc.id=#{id}
+    </select>
+    <!--根据商家id查看商家详情-->
+    <select id="findCommoditySupplierById" resultType="com.springboot.fun.entity.NideShopSupplier" resultMap="NideShopSupplierList" >
+       select
+       ns.id,
+         ns.name,
+         ns.address,
+         ns.longitude,
+         ns.latitude,
+         ns.contact_mobie,
+         ns.primary_pic_url,
+         ns.thumbnail_url,
+         ns.introduction,
+         ns.open_time,
+         ns.status,
+         ns.browse_num,
+         ns.browse_true_num,
+         ns.share_num,
+         ns.share_true_num,
+         ns.create_time,
+         ns.update_time,
+         ns.label
+        FROM
+        nideshop_supplier ns
+         where ns.id=#{supplierId}
+    </select>
+    <!--浏览量（真实，虚拟加1）-->
+    <update id="updateBrowseNum">
+    update nideshop_supplier set browse_num=(browse_num+1),browse_true_num=(browse_true_num+1) where id=#{supplierId}
+    </update>
+   <!-- 立即兑换
+    查找是否以前兑换过(次数限制)查找动力币是否足够  减库存， 减去动力币， 生成订单，销量加一，动力币明细-->
+   <!-- 查找核销码有没有重复，有，就再次生成-->
+    <select id="findCodeNumber" resultType="String">
+    select order_code  from fun_commodity_order where order_code=#{orderCode}
+	</select>
+    <!--查找用户动力币是否足够-->
+    <select id="selectUserCoin" resultType="decimal">
+    select balance  from ylq_wallet where user_id=#{userId}
+	</select>
+    <!--查找库存是否足够-->
+    <select id="selectStore" resultType="int">
+    select commodity_store  from fun_commodity where id=#{commodityId}
+	</select>
+    <!--减库存-->
+    <update id="updateCommodityStore">
+    update fun_commodity set commodity_store=(commodity_store-1) where id=#{commodityId}
+    </update>
+    <!--减动力币-->
+    <update id="updateUserCoin" parameterType="Map" >
+    update ylq_wallet set balance=(balance-#{orderCoin}) where user_id=#{userId}
+    </update>
+   <!--生成订单 -->
+    <insert id="insertCommodityOrder" parameterType="com.springboot.fun.entity.FunCommodityOrder">
+		insert into fun_commodity_order
+				  (id,
+                  commodity_id,
+                  supplier_id,
+                  user_id,
+                  order_state,
+                  order_supplier_name,
+                  order_supplier_img,
+                  order_supplier_phone,
+                  order_supplier_address,
+                  order_commodity_name,
+                  order_commodity_img,
+                  order_serial_number,
+                  order_store_price,
+                  order_subscribe_price,
+                  order_code,
+                  order_member_name,
+                  order_member_phone,
+                  order_member_address,
+                  order_get_time,
+                  order_lose_time,
+                  order_coin,
+                  order_message,
+                  order_attribute,
+                  order_number
+
+                  )
+	    values (  #{id},
+	              #{commodityId},
+	              #{supplierId},
+	              #{userId},
+	              #{orderState},
+	              #{orderSupplierName},
+	              #{orderSupplierImg},
+	              #{orderSupplierPhone},
+	              #{orderSupplierAddress},
+	              #{orderCommodityName},
+	              #{orderCommodityImg},
+	              #{orderSerialNumber},
+	              #{orderStorePrice},
+	              #{orderSubscribePrice},
+	              #{orderCode},
+	              #{orderMemberName},
+	              #{orderMemberPhone},
+	              #{orderMemberAddress},
+	              #{orderGetTime},
+	              #{orderLoseTime},
+	              #{orderCoin},
+	              #{orderMessage},
+	              #{orderAttribute},
+	              #{orderNumber}
+	              )
+	</insert>
+    <!--已兑换（真实，虚拟加1）-->
+    <update id="updateCommodityCash">
+    update fun_commodity set commodity_sold_true=(commodity_sold_true+1),commodity_sold_virtual=(commodity_sold_virtual+1) where id=#{commodityId}
+    </update>
+    <!--生成动力币明细-->
+    <insert id="insertCoinInf" parameterType="Map">
+		insert into ylq_wallet_detail
+				  (id,
+				user_id,
+				money,
+				 balance,
+				 state,
+				 type,
+				 order_id,
+				 remark)
+	    values (#{id},
+	              #{userId},
+	              #{orderCoin},
+	              #{balance},
+	              #{state},
+	              #{type},
+	              #{orderId},
+	              #{remark}
+	              )
+	</insert>
+
+   <!-- 获取订单列表-->
+    <select id="findCommodityOrder" resultType="com.springboot.fun.entity.FunCommodityOrder" resultMap="CommodityOrderMapList" >
+       select
+      id,
+      commodity_id,
+      supplier_id,
+      user_id,
+      order_state,
+      order_supplier_name,
+      order_supplier_img,
+      order_supplier_phone,
+      order_supplier_address,
+      order_commodity_name,
+      order_commodity_img,
+      order_serial_number,
+      order_express_number,
+      order_logistics,
+      order_store_price,
+      order_subscribe_price,
+      order_pay_time,
+      order_code_time,
+      order_code,
+      order_member_name,
+      order_member_phone,
+      order_member_address,
+      order_get_time,
+      order_lose_time,
+      order_coin,
+      order_message,
+      order_send_time,
+      order_put_time,
+      order_type,
+      order_attribute,
+      order_number,
+      order_create_time,
+      order_update_time
+        FROM
+        fun_commodity_order fco
+         where 1=1
+          and  fco.user_id=#{userId}
+          and  fco.order_attribute=#{type}
+          and (#{state} is null or fco.order_state=#{state})
+          order by order_create_time desc
+    </select>
+    <!-- 根据商品id查看订单详情-->
+    <select id="findCommodityOrderById" resultType="com.springboot.fun.entity.FunCommodityOrder" resultMap="CommodityOrderMapList" >
+       select
+      fco.id,
+       fco.commodity_id,
+       fco.supplier_id,
+       fco.user_id,
+       fco.order_state,
+       fco.order_supplier_name,
+       fco.order_supplier_img,
+       fco.order_supplier_phone,
+       fco.order_supplier_address,
+       fco.order_commodity_name,
+       fco.order_commodity_img,
+       fco.order_serial_number,
+       fco.order_express_number,
+       fco.order_logistics,
+       fco.order_store_price,
+       fco.order_subscribe_price,
+       fco.order_pay_time,
+       fco.order_code_time,
+       fco.order_code,
+       fco.order_member_name,
+       fco.order_member_phone,
+       fco.order_member_address,
+       fco.order_get_time,
+       fco.order_lose_time,
+       fco.order_coin,
+       fco.order_message,
+       fco.order_send_time,
+       fco.order_put_time,
+       fco.order_type,
+       fco.order_attribute,
+       fco.order_number,
+       fco.order_create_time,
+       fco.order_update_time,
+      ns.longitude as longitude,
+      ns.latitude as latitude
+        FROM
+        fun_commodity_order fco
+      LEFT JOIN nideshop_supplier ns ON fco.supplier_id=ns.id
+         where fco.id=#{id}
+    </select>
+    <!--确认收货-->
+    <update id="receiveCommodityOrder">
+    update fun_commodity_order set order_state=5 where id=#{id}
+    </update>
+
+  <!--查找用户的订单信息-->
+    <select id="selectCommodityOrder" resultType="com.springboot.fun.entity.FunCommodityOrder" resultMap="CommodityOrderMapList" >
+       select
+      fco.id,
+       fco.commodity_id,
+       fco.supplier_id,
+       fco.user_id,
+       fco.order_state,
+       fco.order_supplier_name,
+       fco.order_supplier_img,
+       fco.order_supplier_phone,
+       fco.order_supplier_address,
+       fco.order_commodity_name,
+       fco.order_commodity_img,
+       fco.order_serial_number,
+       fco.order_express_number,
+       fco.order_logistics,
+       fco.order_store_price,
+       fco.order_subscribe_price,
+       fco.order_pay_time,
+       fco.order_code_time,
+       fco.order_code,
+       fco.order_member_name,
+       fco.order_member_phone,
+       fco.order_member_address,
+       fco.order_get_time,
+       fco.order_lose_time,
+       fco.order_coin,
+       fco.order_message,
+       fco.order_send_time,
+       fco.order_put_time,
+       fco.order_type,
+       fco.order_attribute,
+       fco.order_number,
+       fco.order_create_time,
+       fco.order_update_time
+        FROM
+        fun_commodity_order fco
+         where fco.user_id=#{userId}
+    </select>
+    <!--修改核销状态为已失效-->
+    <update id="updateMyCommodityOrderState">
+	update fun_commodity_order set order_state=6 where id=#{id}
+	</update>
+    <!--查找用户兑换了多少次-->
+    <select id="selectUserConvertNum" resultType="int">
+    select count(*) from fun_commodity_order where commodity_id=#{commodityId} and user_id=#{userId}
+	</select>
+    <!--查找商品的信息（兑换的次数）-->
+    <select id="selectCommodityOrderNum" resultType="com.springboot.fun.entity.FunCommodity" resultMap="CommodityMapList" >
+    SELECT
+    fc.id,
+    fc.supplier_id,
+    fc.commodity_name,
+    fc.commodity_litimg,
+    fc.commodity_img,
+    fc.commodity_attribute_state,
+    fc.commodity_type,
+    fc.commodity_store_price,
+    fc.commodity_subscribe_price,
+    fc.commodity_store,
+    fc.commodity_sold_true,
+    fc.commodity_sold_virtual,
+    fc.commodity_state,
+    fc.commodity_deadline,
+    fc.commodity_indate,
+    fc.commodity_coin,
+    fc.commodity_number,
+    fc.commodity_role,
+    fc.commodity_text,
+    commodity_sort,
+    commodity_member_list,
+    fc.commodity_get_time,
+    fc.commodity_get_deadline,
+    fc.commodity_create_time,
+    fc.commodity_update_time
+    FROM
+    fun_commodity fc
+    where fc.id=#{commodityId}
+    </select>
+
+   <!--把用户头像添加到商品表的购买集合里面-->
+    <update id="addUserUrlToCommodity">
+	update fun_commodity set commodity_member_list=#{commodityMemberList} where id=#{id}
+	</update>
+    <!--分享商品-->
+    <update id="shareCommodity">
+    update nideshop_supplier set share_num=(share_num+1),share_true_num=(share_true_num+1) where id=#{id}
+    </update>
+<!--
+
+    后台
+
+-->
+    <!--搜索获取商品列表-->
+    <select id="searchCommodityList" resultType="com.springboot.fun.entity.FunCommodity" resultMap="CommodityMapList" >
+        SELECT
+        fc.id,
+        fc.supplier_id,
+        fc.commodity_name,
+        fc.commodity_litimg,
+        fc.commodity_img,
+        fc.commodity_attribute_state,
+        fc.commodity_type,
+        fc.commodity_store_price,
+        fc.commodity_subscribe_price,
+        fc.commodity_store,
+        fc.commodity_sold_true,
+        fc.commodity_sold_virtual,
+        fc.commodity_state,
+        fc.commodity_deadline,
+        fc.commodity_indate,
+        fc.commodity_coin,
+        fc.commodity_number,
+        fc.commodity_role,
+        fc.commodity_text,
+        commodity_sort,
+        commodity_member_list,
+        fc.commodity_get_time,
+        fc.commodity_get_deadline,
+        fc.commodity_create_time,
+        fc.commodity_update_time,
+        ns.name as supplierName,
+        fc.commodity_member_state
+        FROM
+        fun_commodity fc
+         LEFT JOIN nideshop_supplier ns ON fc.supplier_id =ns.id
+        LEFT JOIN fun_school_supplier fss ON fss.supplier_id =fc.supplier_id
+        where 1=1
+              and (#{schoolId} is null or fss.school_id=#{schoolId})
+              and (#{supplier} is null or ns.id=#{supplier})
+              and (#{commodity} is null or instr(fc.commodity_name,#{commodity})>0)
+          group by fc.id
+          order by fc.commodity_create_time
+
+    </select>
+    <!--上传商品-->
+    <insert id="insertCommodity" parameterType="com.springboot.fun.entity.FunCommodity">
+		insert into fun_commodity(
+          id,
+          supplier_id,
+          commodity_name,
+          commodity_litimg,
+          commodity_img,
+          commodity_attribute_state,
+          commodity_store_price,
+          commodity_subscribe_price,
+          commodity_store,
+          commodity_sold_true,
+          commodity_sold_virtual,
+          commodity_deadline,
+          commodity_coin,
+          commodity_number,
+          commodity_role,
+          commodity_text,
+          commodity_sort,
+          commodity_get_time,
+          commodity_get_deadline,
+          commodity_member_state,
+           commodity_type
+			)
+		values(
+			#{id},
+			#{supplierId},
+			#{commodityName},
+			#{commodityLitimg},
+			#{commodityImg},
+			#{commodityAttributeState},
+			#{commodityStorePrice},
+			#{commoditySubscribePrice},
+			#{commodityStore},
+			#{commoditySoldTrue},
+			#{commoditySoldVirtual},
+			#{commodityDeadline},
+			#{commodityCoin},
+			#{commodityNumber},
+			#{commodityRole},
+			#{commodityText},
+			#{commoditySort},
+			#{commodityGetTime},
+			#{commodityGetDeadline},
+			#{commodityMemberState},
+			#{commodityType}
+			)
+	</insert>
+    <!--返回需要编辑的商品信息-->
+    <!--搜索获取商品列表-->
+    <select id="searchCommodity" resultType="com.springboot.fun.entity.FunCommodity" resultMap="CommodityMapList" >
+        SELECT
+        fc.id,
+        fc.supplier_id,
+        fc.commodity_name,
+        fc.commodity_litimg,
+        fc.commodity_img,
+        fc.commodity_attribute_state,
+        fc.commodity_type,
+        fc.commodity_store_price,
+        fc.commodity_subscribe_price,
+        fc.commodity_store,
+        fc.commodity_sold_true,
+        fc.commodity_sold_virtual,
+        fc.commodity_state,
+        fc.commodity_deadline,
+        fc.commodity_indate,
+        fc.commodity_coin,
+        fc.commodity_number,
+        fc.commodity_role,
+        fc.commodity_text,
+        commodity_sort,
+        commodity_member_list,
+        fc.commodity_get_time,
+        fc.commodity_get_deadline,
+        fc.commodity_create_time,
+        fc.commodity_update_time,
+        fc.commodity_member_state
+        FROM
+        fun_commodity fc
+        where id=#{id}
+    </select>
+    <!--编辑商品-->
+    <update id="updateCommodity">
+        UPDATE fun_commodity
+        <trim prefix="set" suffixOverrides=",">
+            <if test="supplierId!=null">supplier_id=#{supplierId},</if>
+            <if test="commodityName!=null">commodity_name=#{commodityName},</if>
+            <if test="commodityLitimg!=null">commodity_litimg=#{commodityLitimg},</if>
+            <if test="commodityImg!=null">commodity_img=#{commodityImg},</if>
+
+            <if test="commodityAttributeState!=null">commodity_attribute_state=#{commodityAttributeState},</if>
+            <if test="commodityStorePrice!=null">commodity_store_price=#{commodityStorePrice},</if>
+            <if test="commoditySubscribePrice!=null">commodity_subscribe_price=#{commoditySubscribePrice},</if>
+
+            <if test="commodityStore!=null">commodity_store=#{commodityStore},</if>
+            <if test="commoditySoldTrue!=null">commodity_sold_true=#{commoditySoldTrue},</if>
+             <if test="commoditySoldVirtual!=null">commodity_sold_virtual=#{commoditySoldVirtual},</if>
+
+            <if test="commodityDeadline!=null">commodity_deadline=#{commodityDeadline},</if>
+            <if test="commodityCoin!=null">commodity_coin=#{commodityCoin},</if>
+            <if test="commodityNumber!=null">commodity_number=#{commodityNumber},</if>
+            <if test="commodityRole!=null">commodity_role=#{commodityRole},</if>
+
+            <if test="commodityText!=null">commodity_text=#{commodityText},</if>
+            <if test="commoditySort!=null">commodity_sort=#{commoditySort},</if>
+            <if test="commodityGetTime!=null">commodity_get_time=#{commodityGetTime},</if>
+            <if test="commodityGetDeadline!=null">commodity_get_deadline=#{commodityGetDeadline},</if>
+            <if test="commodityMemberState!=null">commodity_member_state=#{commodityMemberState},</if>
+            <if test="commodityType!=null">commodity_type=#{commodityType},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+    <!--下架商品-->
+    <update id="outCommodity">
+	update fun_commodity set commodity_state=2 where id=#{id}
+	</update>
+    <!--上架商品-->
+    <update id="upCommodity">
+	update fun_commodity set commodity_state=1 where id=#{id}
+	</update>
+    <!--查找筛选订单列表-->
+    <!-- 获取列表-->
+    <select id="searchCommodityOrder" resultType="com.springboot.fun.entity.FunCommodityOrder" resultMap="CommodityOrderMapList" >
+       select
+      fco.id,
+      fco.commodity_id,
+      fco.supplier_id,
+      fco.user_id,
+      fco.order_state,
+      fco.order_supplier_name,
+      fco.order_supplier_img,
+      fco.order_supplier_phone,
+      fco.order_supplier_address,
+      fco.order_commodity_name,
+      fco.order_commodity_img,
+      fco.order_serial_number,
+      fco.order_express_number,
+      fco.order_logistics,
+      fco.order_store_price,
+      fco.order_subscribe_price,
+      fco.order_pay_time,
+      fco.order_code_time,
+      fco.order_code,
+      fco.order_member_name,
+      fco.order_member_phone,
+      fco.order_member_address,
+      fco.order_get_time,
+      fco.order_lose_time,
+      fco.order_coin,
+      fco.order_message,
+      fco.order_send_time,
+      fco.order_put_time,
+      fco.order_type,
+      fco.order_attribute,
+      fco.order_number,
+      fco.order_create_time,
+      fco.order_update_time,
+      wu.nickname as nickName
+        FROM
+        fun_commodity_order fco
+        LEFT JOIN wx_user wu ON fco.user_id= wu.id
+        LEFT JOIN nideshop_supplier ns ON ns.id= fco.supplier_id
+        LEFT JOIN fun_school_supplier fss ON fss.supplier_id= fco.id
+         where 1=1
+              and (#{schoolId} is null or fss.school_id=#{schoolId})
+              and (#{type} is null or fco.order_attribute=#{type})
+              and (#{startTime} is null or UNIX_TIMESTAMP(fco.order_create_time) <![CDATA[>=]]> UNIX_TIMESTAMP(#{startTime}))
+              and (#{endTime} is null or UNIX_TIMESTAMP(fco.order_create_time) <![CDATA[<=]]> UNIX_TIMESTAMP(#{endTime}))
+              and (#{state} is null or instr(fco.order_state,#{state})>0)
+              and (#{nickname} is null or instr(wu.nickname,#{nickname})>0)
+              and (#{orderSn} is null or instr(fco.order_serial_number,#{orderSn})>0)
+          order by fco.order_create_time desc
+    </select>
+    <!--查找订单详情-->
+    <select id="searchCommodityOrderById" resultType="com.springboot.fun.entity.FunCommodityOrder" resultMap="CommodityOrderMapList" >
+       select
+      fco.id,
+      fco.commodity_id,
+      fco.supplier_id,
+      fco.user_id,
+      fco.order_state,
+      fco.order_supplier_name,
+      fco.order_supplier_img,
+      fco.order_supplier_phone,
+      fco.order_supplier_address,
+      fco.order_commodity_name,
+      fco.order_commodity_img,
+      fco.order_serial_number,
+      fco.order_express_number,
+      fco.order_logistics,
+      fco.order_store_price,
+      fco.order_subscribe_price,
+      fco.order_pay_time,
+      fco.order_code_time,
+      fco.order_code,
+      fco.order_member_name,
+      fco.order_member_phone,
+      fco.order_member_address,
+      fco.order_get_time,
+      fco.order_lose_time,
+      fco.order_coin,
+      fco.order_message,
+      fco.order_send_time,
+      fco.order_put_time,
+      fco.order_type,
+      fco.order_attribute,
+      fco.order_number,
+      fco.order_create_time,
+      fco.order_update_time,
+      wu.nickname as nickName
+        FROM
+        fun_commodity_order fco
+        LEFT JOIN wx_user wu ON fco.user_id= wu.id
+        where fco.id=#{id}
+    </select>
+    <!--返回快递-->
+    <select id="selectLogistics" resultType="com.springboot.fun.entity.NideshopShipping" >
+       select
+        ns.id as id,
+        ns.code as code,
+        ns.name as name,
+        ns.status as status
+        FROM
+        nideshop_shipping ns
+    </select>
+    <!--商品发货-->
+    <update id="sendCommodityOrder">
+        UPDATE fun_commodity_order
+        <trim prefix="set" suffixOverrides=",">
+            <if test="orderExpressNumber!=null">order_express_number=#{orderExpressNumber},</if>
+            <if test="orderLogistics!=null">order_logistics=#{orderLogistics},</if>
+            <if test="orderSendTime!=null">order_send_time=#{orderSendTime},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+    <!--修改订单状态为已发货-->
+    <update id="updateCommodityOrderStateSend">
+	update fun_commodity_order set order_state=3 where id=#{id}
+	</update>
+</mapper>

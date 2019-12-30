@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.fun.dao.ShopSchoolDao">
+
+    <!--校园福利列表-->
+    <resultMap type="com.springboot.fun.entity.ShopSchool" id="ShopSchoolMapList">
+        <result property="id" column="id"/>
+        <result property="schoolSupplierId" column="school_supplier_id"/>
+            <result property="supplierName" column="supplierName"/>
+            <result property="supplierAddress" column="supplierAddress"/>
+            <result property="supplierUrl" column="supplierUrl"/>
+        <result property="schoolName" column="school_name"/>
+        <result property="schoolLitimg" column="school_litimg"/>
+        <result property="schoolImg" column="school_img"/>
+        <result property="schoolStore" column="school_store"/>
+        <result property="schoolSold" column="school_sold"/>
+        <result property="schoolCoin" column="school_coin"/>
+        <result property="schoolOriginalCost" column="school_original_cost"/>
+        <result property="schoolCurrentPrice" column="school_current_price"/>
+        <result property="schoolNumber" column="school_number"/>
+        <result property="schoolTime" column="school_time"/>
+        <result property="schoolState" column="school_state"/>
+        <result property="createTime" column="school_create_time"/>
+        <result property="updateTime" column="school_update_time"/>
+    </resultMap>
+
+    <!--校园福利商家列表-->
+    <resultMap type="com.springboot.fun.entity.NideShopSupplier" id="NideShopSupplierList">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="contactMobie" column="contact_mobie"/>
+        <result property="primaryPicUrl" column="primary_pic_url"/>
+        <result property="thumbnailUrl" column="thumbnail_url"/>
+        <result property="introduction" column="introduction"/>
+        <result property="openTime" column="open_time"/>
+        <result property="schoolId" column="school_id"/>
+        <result property="schoolName" column="school_name"/>
+        <result property="browseNum" column="browse_num"/>
+        <result property="browseTrueNum" column="browse_true_num"/>
+        <result property="shareNum" column="share_num"/>
+        <result property="shareTrueNum" column="share_true_num"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+            <!--<collection property="labelName" ofType="com.springboot.fun.entity.NideshopLabel">
+                <result property="id" column="id"/>
+                <result property="labelName" column="label_name"/>
+                <result property="status" column="status"/>
+                <result property="createTime" column="create_time"/>
+                <result property="updateTime" column="update_time"/>
+            </collection>-->
+    </resultMap>
+    <!--商家活动标签-->
+    <resultMap type="com.springboot.fun.entity.NideshopLabel" id="NideshopLabelList">
+        <result property="id" column="id"/>
+        <result property="labelName" column="label_name"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <!--校园福利订单列表-->
+    <resultMap type="com.springboot.fun.entity.SchoolOrder" id="ShopSchoolOrderMapList">
+        <result property="id" column="id"/>
+        <result property="orderSupplierId" column="order_supplier_id"/>
+        <result property="orderSchoolshopId" column="order_schoolshop_id"/>
+        <result property="orderUserId" column="order_user_id"/>
+        <result property="orderSupplierName" column="order_supplier_name"/>
+        <result property="orderSupplierUrl" column="order_schoolsupplier_url"/>
+        <result property="orderSupplierPhone" column="order_supplier_phone"/>
+        <result property="orderSchoolshopName" column="order_schoolshop_name"/>
+        <result property="orderSchoolshopUrl" column="order_schoolshop_url"/>
+        <result property="orderSchoolshopAddress" column="order_schoolshop_address"/>
+        <result property="orderSerialNumber" column="order_serial_number"/>
+        <result property="orderCodeNumber" column="order_code_number"/>
+        <result property="orderState" column="order_state"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="orderCoin" column="order_coin"/>
+        <result property="orderOriginalCost" column="order_original_cost"/>
+        <result property="orderCurrentPrice" column="order_current_price"/>
+        <result property="orderPayWay" column="order_pay_way"/>
+        <result property="orderPayTime" column="order_pay_time"/>
+        <result property="orderSuccessTime" column="order_success_time"/>
+        <result property="orderUpdateTime" column="order_update_time"/>
+        <result property="orderCreateTime" column="order_create_time"/>
+    </resultMap>
+
+    <!--获取校园福利首页列表  根据兑换量排序-->
+    <select id="finSchoolShopConvertList" resultType="com.springboot.fun.entity.ShopSchool" resultMap="ShopSchoolMapList" >
+        SELECT
+        fss.id,
+         fss.school_supplier_id,
+         ns.name as supplierName,
+         ns.primary_pic_url as supplierUrl,
+         ns.address as supplierAddress,
+         fss.school_name,
+         fss.school_litimg,
+         fss.school_img,
+         fss.school_store,
+         fss.school_sold,
+         fss.school_coin,
+         fss.school_original_cost,
+         fss.school_current_price,
+         fss.school_number,
+         fss.school_time,
+         fss.school_state,
+         fss.school_create_time,
+         fss.school_update_time
+        FROM
+        fun_shop_school fss
+        LEFT JOIN nideshop_supplier ns ON fss.school_supplier_id =ns.id
+         where  school_state=1  order by school_sold desc
+    </select>
+    <!--查找校园福利列表-->
+    <select id="finSchoolShopList" resultType="com.springboot.fun.entity.ShopSchool" resultMap="ShopSchoolMapList" >
+        SELECT
+        fss.id,
+         fss.school_supplier_id,
+         ns.name as supplierName,
+         ns.primary_pic_url as supplierUrl,
+         ns.address as supplierAddress,
+         fss.school_name,
+         fss.school_litimg,
+         fss.school_img,
+         fss.school_store,
+         fss.school_sold,
+         fss.school_coin,
+         fss.school_original_cost,
+         fss.school_current_price,
+         fss.school_number,
+         fss.school_time,
+         fss.school_state,
+         fss.school_create_time,
+         fss.school_update_time
+        FROM
+        fun_shop_school fss
+        LEFT JOIN nideshop_supplier ns ON fss.school_supplier_id =ns.id
+         where  school_state=1  order by school_create_time desc
+    </select>
+    <!--根据商品id查看校园福利商品详情-->
+    <select id="findShopSchoolById" resultType="com.springboot.fun.entity.ShopSchool" resultMap="ShopSchoolMapList" >
+       select
+        fss.id,
+         fss.school_supplier_id,
+         ns.name as supplierName,
+         ns.primary_pic_url as supplierUrl,
+         ns.address as supplierAddress,
+         fss.school_name,
+         fss.school_litimg,
+         fss.school_img,
+         fss.school_store,
+         fss.school_coin,
+         fss.school_original_cost,
+         fss.school_current_price,
+         fss.school_number,
+         fss.school_time,
+         fss.school_state,
+         fss.school_create_time,
+         fss.school_update_time
+        FROM
+        fun_shop_school fss
+        LEFT JOIN nideshop_supplier ns ON fss.school_supplier_id =ns.id
+         where fss.id=#{id}
+    </select>
+    <!--根据商品id查看商家详情-->
+    <select id="findSchoolSupplierById" resultType="com.springboot.fun.entity.NideShopSupplier" resultMap="NideShopSupplierList" >
+       select
+       ns.id,
+         ns.name,
+         ns.address,
+         ns.longitude,
+         ns.latitude,
+         ns.contact_mobie,
+         ns.primary_pic_url,
+         ns.thumbnail_url,
+         ns.introduction,
+         ns.open_time,
+         ns.school_id,
+         ns.status,
+         ns.browse_num,
+         ns.browse_true_num,
+         ns.share_num,
+         ns.share_true_num,
+         ns.create_time,
+         ns.update_time
+        FROM
+        nideshop_supplier ns
+         where ns.id=#{id}
+    </select>
+    <!--根据商品id查看商家  /*where nl.id in(select label_id from nideshop_supplier_label nsl where nsl.supplier_id=#{id})*/-->
+    <select id="findSchoolSupplierLabelById" resultType="com.springboot.fun.entity.NideshopLabel" resultMap="NideshopLabelList" >
+       select
+       id,
+         label_name,
+         status,
+         create_time,
+         update_time
+        FROM
+         nideshop_label nl
+          where exists(select label_id from nideshop_supplier_label nsl where nsl.supplier_id=#{id} and nsl.label_id=nl.id)
+    </select>
+    <!--浏览量（真实，虚拟加1）-->
+    <update id="updateBrowseNum">
+    update nideshop_supplier set browse_num=(browse_num+1),browse_true_num=(browse_true_num+1) where id=#{id}
+    </update>
+<!-- 立即兑换-->
+   <!--查找是否以前兑换过(次数+时间限制)，查找动力币是否足够  减库存， 减去动力币， 生成订单，动力币明细-->
+    <!--查找用户兑换了多少次-->
+    <select id="selectUserConvertNum" resultType="int">
+    select count(*) from fun_school_order where order_schoolshop_id=#{orderSchoolshopId} and order_user_id=#{userId}
+	</select>
+    <!--查找商家详情-->
+    <select id="selectShopSchool" resultType="com.springboot.fun.entity.ShopSchool" resultMap="ShopSchoolMapList">
+    select school_number,
+            school_time
+            from fun_shop_school
+            where school_supplier_id=#{orderSupplierId}
+	</select>
+    <!--根据id获取商家其他商品列表-->
+    <select id="finSchoolShopSupplierList" resultType="com.springboot.fun.entity.ShopSchool" resultMap="ShopSchoolMapList" >
+        SELECT
+        fss.id,
+         fss.school_supplier_id,
+         ns.name as supplierName,
+         ns.primary_pic_url as supplierUrl,
+         ns.address as supplierAddress,
+         fss.school_name,
+         fss.school_litimg,
+         fss.school_img,
+         fss.school_store,
+         fss.school_coin,
+         fss.school_original_cost,
+         fss.school_current_price,
+         fss.school_number,
+         fss.school_time,
+         fss.school_state,
+         fss.school_create_time,
+         fss.school_update_time
+        FROM
+        fun_shop_school fss
+        LEFT JOIN nideshop_supplier ns ON fss.school_supplier_id =ns.id
+         where  fss.school_supplier_id=#{id}
+    </select>
+    <!--查找上一次兑换这件商品的时间-->
+    <select id="selectUserLastConverTime" resultType="java.util.Date" parameterType="Map">
+    select  DATE_ADD(order_pay_time,INTERVAL #{schoolTime} DAY)  as orderPayTime  from fun_school_order where order_schoolshop_id=#{orderSchoolshopId} and order_user_id=#{userId} ORDER BY order_pay_time desc limit 1
+    </select>
+    <!--查找用户动力币是否足够-->
+    <select id="selectUserCoin" resultType="decimal">
+    select balance  from ylq_wallet where user_id=#{userId}
+	</select>
+    <!--查找库存是否足够-->
+    <select id="selectStore" resultType="int">
+    select school_store  from fun_shop_school where id=#{orderSchoolshopId}
+	</select>
+    <!--减库存-->
+    <update id="updateShopSchoolStore">
+    update fun_shop_school set school_store=(school_store-1) where id=#{orderSchoolshopId}
+    </update>
+    <!--加销量-->
+    <update id="updateShopSchoolSold">
+    update fun_shop_school set school_sold=(school_sold+1) where id=#{orderSchoolshopId}
+    </update>
+    <!--减动力币-->
+    <update id="updateUserCoin" parameterType="Map" >
+    update ylq_wallet set balance=(balance-#{orderCoin}) where user_id=#{userId}
+    </update>
+    <!--生成订单-->
+    <insert id="insertShopSchoolOrder" parameterType="com.springboot.fun.entity.SchoolOrder">
+		insert into fun_school_order
+				  (id,
+				order_supplier_id,
+				order_schoolshop_id,
+				 order_user_id,
+				 order_supplier_name,
+				 order_schoolsupplier_url,
+				 order_supplier_phone,
+				 order_schoolshop_name,
+				 order_schoolshop_url,
+				 order_schoolshop_address,
+				 order_serial_number,
+				 order_code_number,
+				 order_number,
+				 order_coin,
+				 order_original_cost,
+				 order_current_price
+				 )
+	    values (#{id},
+	              #{orderSupplierId},
+	              #{orderSchoolshopId},
+	              #{orderUserId},
+	              #{orderSupplierName},
+	              #{orderSupplierUrl},
+	              #{orderSupplierPhone},
+	              #{orderSchoolshopName},
+	              #{orderSchoolshopUrl},
+	              #{orderSchoolshopAddress},
+	              #{orderSerialNumber},
+	              #{orderCodeNumber},
+	              #{orderNumber},
+	              #{orderCoin},
+	              #{orderOriginalCost},
+	              #{orderCurrentPrice}
+	              )
+	</insert>
+    <!--生成动力币明细-->
+    <insert id="insertCoinInf" parameterType="Map">
+		insert into ylq_wallet_detail
+				  (id,
+				user_id,
+				money,
+				 balance,
+				 type,
+				 order_id,
+				 remark)
+	    values (#{id},
+	              #{userId},
+	              #{orderCoin},
+	              #{balance},
+	              #{type},
+	              #{orderId},
+	              #{remark}
+	              )
+	</insert>
+    <!--生成校园福利订单列表-->
+    <select id="finSchoolShopOrderList" resultType="com.springboot.fun.entity.SchoolOrder" resultMap="ShopSchoolOrderMapList" >
+        SELECT
+                id,
+                order_supplier_id,
+                order_schoolshop_id,
+                order_user_id,
+                order_supplier_name,
+                order_supplier_phone,
+                order_schoolshop_name,
+                order_schoolsupplier_url,
+                order_schoolshop_url,
+                order_schoolshop_address,
+                order_serial_number,
+                order_code_number,
+                order_state,
+                order_number,
+                order_coin,
+                order_original_cost,
+                order_current_price,
+                order_pay_way,
+                order_pay_time,
+                order_success_time,
+                order_update_time,
+                order_create_time
+        FROM
+        fun_school_order
+         where  order_state=#{type}  order by order_create_time desc
+    </select>
+
+     <!--   根据商品id查看校园福利订单详情-->
+    <select id="finSchoolShopOrderById" resultType="com.springboot.fun.entity.SchoolOrder" resultMap="ShopSchoolOrderMapList" >
+        SELECT
+                id,
+                order_supplier_id,
+                order_schoolshop_id,
+                order_user_id,
+                order_supplier_name,
+                order_supplier_phone,
+                order_schoolshop_name,
+                order_schoolsupplier_url,
+                order_schoolshop_url,
+                order_schoolshop_address,
+                order_serial_number,
+                order_code_number,
+                order_state,
+                order_number,
+                order_coin,
+                order_original_cost,
+                order_current_price,
+                order_pay_way,
+                order_pay_time,
+                order_success_time,
+                order_update_time,
+                order_create_time
+        FROM
+        fun_school_order
+         where  id=#{id}
+    </select>
+    <!--查找核销码有没有重复，有，就再次生成-->
+    <select id="findCodeNumber" resultType="String">
+    select order_code_number  from fun_school_order where order_code_number=#{orderCodeNumber}
+	</select>
+</mapper>

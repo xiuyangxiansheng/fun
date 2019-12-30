@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.fun.dao.DeployDao">
+<!--获取formid-->
+    <resultMap type="com.springboot.fun.entity.YlqSignSetting" id="SignSettingMap">
+        <result property="id" column="id"/>
+        <result property="day" column="day"/>
+        <result property="money" column="money"/>
+        <result property="status" column="status"/>
+        <result property="sortRank" column="sort_rank"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="description" column="description"/>
+    </resultMap>
+<!--学校列表-->
+    <resultMap type="com.springboot.fun.entity.YlqSchool" id="SchoolMap">
+        <result property="id" column="id"/>
+        <result property="schoolName" column="school_name"/>
+        <result property="schoolNumber" column="school_number"/>
+        <result property="firstLetter" column="first_letter"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="isDefault" column="is_default"/>
+        <result property="status" column="status"/>
+        <result property="sortRank" column="sort_rank"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <!--公告-->
+    <resultMap type="com.springboot.fun.entity.FunNotice" id="NoticeMap">
+        <result property="id" column="id"/>
+        <result property="userNum" column="userNum"/>
+        <result property="browseNum" column="browseNum"/>
+        <result property="notice" column="notice"/>
+        <result property="type" column="type"/>
+        <result property="state" column="state"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+    </resultMap>
+    <!--轮播图-->
+    <resultMap type="com.springboot.fun.entity.FunHomeUrl" id="HomeUrlMap">
+        <result property="id" column="id"/>
+        <result property="homeUrl" column="home_url"/>
+        <result property="homeState" column="home_state"/>
+        <result property="homeSchoolId" column="home_school_id"/>
+        <result property="homePath" column="home_path"/>
+        <result property="homePathType" column="home_path_type"/>
+        <result property="homeResult" column="home_result"/>
+        <result property="homeDeleteState" column="home_delete_state"/>
+        <result property="createTime" column="create_time"/>
+         <result property="updateTime" column="update_time"/>
+    </resultMap>
+    <!--任务-->
+    <resultMap type="com.springboot.fun.entity.YlqTask" id="TaskMap">
+        <result property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="name" column="name"/>
+        <result property="title" column="title"/>
+        <result property="img" column="img"/>
+        <result property="money" column="money"/>
+        <result property="maxMoney" column="max_money"/>
+        <result property="status" column="status"/>
+        <result property="sortRank" column="sort_rank"/>
+        <result property="remark" column="remark"/>
+        <result property="path" column="path"/>
+        <result property="pathType" column="path_type"/>
+        <result property="result" column="result"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="description" column="description"/>
+    </resultMap>
+    <!--签到配置-->
+    <!--查询签到列表-->
+    <select id="selectSignSetting" resultType="com.springboot.fun.entity.YlqSignSetting" resultMap="SignSettingMap" >
+       select
+      id,
+      day,
+      money,
+      status,
+      sort_rank,
+      remark,
+      create_time,
+      update_time,
+      description
+        FROM
+        ylq_sign_setting
+    </select>
+    <!--编辑前返回签到信息-->
+    <select id="selectSignSettingById" resultType="com.springboot.fun.entity.YlqSignSetting" resultMap="SignSettingMap" >
+       select
+      id,
+      day,
+      money,
+      status,
+      sort_rank,
+      remark,
+      create_time,
+      update_time,
+      description
+        FROM
+        ylq_sign_setting
+        where id=#{id}
+    </select>
+   <!-- 编辑签到配置信息-->
+    <update id="updateSignSettingById" parameterType="com.springboot.fun.entity.YlqSignSetting">
+        UPDATE ylq_sign_setting
+        <trim prefix="set" suffixOverrides=",">
+            <if test="day!=null">day=#{day},</if>
+            <if test="money!=null">money=#{money},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+    <!--增加签到配置信息-->
+    <insert id="insertSignSetting" parameterType="com.springboot.fun.entity.YlqSignSetting">
+        insert into ylq_sign_setting(
+            id,
+            day,
+            money
+              )
+        values(
+             #{id},
+            #{day},
+            #{money}
+        )
+    </insert>
+
+    <!--获取校区列表-->
+    <select id="searchSchoolList" resultType="com.springboot.fun.entity.YlqSchool" resultMap="SchoolMap" >
+       select
+      id,
+      school_name,
+      school_number,
+      first_letter,
+      longitude,
+      latitude,
+      is_default,
+      status,
+      sort_rank,
+      remark,
+      create_time,
+      update_time,
+      description
+        FROM
+        ylq_school ys
+         where 1=1
+              and (#{search} is null or instr(ys.school_name,#{search})>0)
+    </select>
+    <!--编辑前返回学校信息-->
+    <select id="searchSchoolById" resultType="com.springboot.fun.entity.YlqSchool" resultMap="SchoolMap" >
+       select
+      id,
+      school_name,
+      school_number,
+      first_letter,
+      longitude,
+      latitude,
+      is_default,
+      status,
+      sort_rank,
+      remark,
+      create_time,
+      update_time,
+      description
+        FROM
+        ylq_school
+        where id=#{id}
+    </select>
+    <!--编辑学校信息-->
+    <update id="updateSchoolById" parameterType="com.springboot.fun.entity.YlqSchool">
+        UPDATE ylq_school
+        <trim prefix="set" suffixOverrides=",">
+            <if test="schoolName!=null">school_name=#{schoolName},</if>
+            <if test="schoolNumber!=null">school_number=#{schoolNumber},</if>
+            <if test="firstLetter!=null">first_letter=#{firstLetter},</if>
+
+        </trim>
+        WHERE id=#{id}
+    </update>
+    <!--添加学校-->
+    <insert id="addSchool" parameterType="com.springboot.fun.entity.YlqSchool">
+        insert into ylq_school(
+            id,
+      school_name,
+      school_number,
+      first_letter
+              )
+        values(
+             #{id},
+            #{schoolName},
+            #{schoolNumber},
+            #{firstLetter}
+        )
+    </insert>
+
+    <!--查询公告列表-->
+    <select id="selectNotice" resultType="com.springboot.fun.entity.FunNotice" resultMap="NoticeMap" >
+       select
+     id,
+    userNum,
+    browseNum,
+    notice,
+    type,
+    state,
+    createTime,
+    updateTime
+        FROM
+        fun_notice
+    </select>
+    <!--编辑前返回公告信息-->
+    <select id="selectNoticeById" resultType="com.springboot.fun.entity.FunNotice" resultMap="NoticeMap" >
+       select
+     id,
+    userNum,
+    browseNum,
+    notice,
+    type,
+    state,
+    createTime,
+    updateTime
+        FROM
+        fun_notice
+        where id=#{id}
+    </select>
+    <!--编辑公告配置信息-->
+    <update id="updateNoticeById" parameterType="com.springboot.fun.entity.FunNotice">
+        UPDATE fun_notice
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userNum!=null">userNum=#{userNum},</if>
+            <if test="browseNum!=null">browseNum=#{browseNum},</if>
+            <if test="notice!=null">notice=#{notice},</if>
+            <if test="type!=null">type=#{type},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+    <!--增加公告配置信息-->
+    <insert id="insertNotice" parameterType="com.springboot.fun.entity.FunNotice">
+        insert into fun_notice(
+            id,
+      userNum,
+      browseNum,
+      notice,
+      type
+              )
+        values(
+             #{id},
+            #{userNum},
+            #{browseNum},
+            #{notice},
+            #{type}
+        )
+    </insert>
+    <!--关闭公告-->
+    <update id="closeNotice">
+       update  fun_notice set state=2 where id =#{id}
+    </update>
+    <!--打开公告-->
+    <update id="openNotice">
+       update  fun_notice set state=1 where id =#{id}
+    </update>
+    <!--查询轮播图列表-->
+    <select id="selectHomeUrl" resultType="com.springboot.fun.entity.FunHomeUrl" resultMap="HomeUrlMap" >
+       select
+         id,
+        home_url,
+        home_state,
+        home_school_id,
+        home_path,
+        home_path_type,
+        home_result,
+        home_delete_state,
+        create_time,
+        update_time
+        FROM
+        fun_home_url
+    </select>
+    <!--编辑前返回轮播图信息-->
+    <select id="selectHomeUrlById" resultType="com.springboot.fun.entity.FunHomeUrl" resultMap="HomeUrlMap" >
+       select
+         id,
+        home_url,
+        home_state,
+        home_school_id,
+        home_path,
+        home_path_type,
+        home_result,
+        home_delete_state,
+        create_time,
+        update_time
+        FROM
+        fun_home_url
+        where id =#{id}
+    </select>
+    <!--编辑轮播图配置信息-->
+    <update id="updateHomeUrlById" parameterType="com.springboot.fun.entity.FunHomeUrl">
+        UPDATE fun_home_url
+        <trim prefix="set" suffixOverrides=",">
+            <if test="homeUrl!=null">home_url=#{homeUrl},</if>
+            <if test="homeState!=null">home_state=#{homeState},</if>
+            <if test="homeSchoolId!=null">home_school_id=#{homeSchoolId},</if>
+            <if test="homePath!=null">home_path=#{homePath},</if>
+            <if test="homePathType!=null">home_path_type=#{homePathType},</if>
+            <if test="homeResult!=null">home_result=#{homeResult},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+    <!--增加轮播图配置信息-->
+    <insert id="insertHomeUrl" parameterType="com.springboot.fun.entity.FunHomeUrl">
+        insert into fun_home_url(
+            id,
+       home_url,
+        home_state,
+        home_school_id,
+        home_path,
+        home_path_type,
+        home_result
+              )
+        values(
+            #{id},
+             #{homeUrl},
+            #{homeState},
+            #{homeSchoolId},
+             #{homePath},
+            #{homePathType},
+            #{homeResult}
+        )
+    </insert>
+    <!--关闭轮播图-->
+    <update id="closeHomeUrl">
+       update  fun_home_url set home_delete_state=2 where id =#{id}
+    </update>
+    <!--打开轮播图-->
+    <update id="openHomeUrl">
+       update  fun_home_url set home_delete_state=1 where id =#{id}
+    </update>
+    <!--查询任务列表-->
+    <select id="selectTask" resultType="com.springboot.fun.entity.YlqTask" resultMap="TaskMap" >
+       select
+      id,
+      type,
+      name,
+     title,
+     img,
+     money,
+     max_money,
+     status,
+     sort_rank,
+     remark,
+     path,
+     path_type,
+     result,
+     create_time,
+     update_time,
+     description
+        FROM
+        ylq_task
+    </select>
+    <!--编辑前返回任务信息-->
+    <select id="selectTaskById" resultType="com.springboot.fun.entity.YlqTask" resultMap="TaskMap" >
+       select
+      id,
+      type,
+      name,
+     title,
+     img,
+     money,
+     max_money,
+     status,
+     sort_rank,
+     remark,
+     path,
+     path_type,
+     result,
+     create_time,
+     update_time,
+     description
+        FROM
+        ylq_task
+    </select>
+    <!--编辑任务配置信息-->
+    <update id="updateTaskById" parameterType="com.springboot.fun.entity.YlqTask">
+        UPDATE ylq_task
+        <trim prefix="set" suffixOverrides=",">
+            <if test="type!=null">type=#{type},</if>
+            <if test="name!=null">name=#{name},</if>
+            <if test="img!=null">img=#{img},</if>
+            <if test="money!=null">money=#{money},</if>
+            <if test="path!=null">path=#{path},</if>
+            <if test="pathType!=null">path_type=#{pathType},</if>
+            <if test="result!=null">result=#{result},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+    <!--增加任务配置信息-->
+    <insert id="insertTask" parameterType="com.springboot.fun.entity.YlqTask">
+        insert into ylq_task(
+       id,
+      type,
+      name,
+     img,
+     money,
+     path,
+     path_type,
+     result
+              )
+        values(
+          #{id},
+             #{type},
+            #{name},
+            #{img},
+            #{money},
+             #{path},
+            #{pathType},
+           #{result}
+        )
+    </insert>
+    <!--关闭任务-->
+    <update id="closeTask">
+       update  ylq_task set status=0 where id =#{id}
+    </update>
+    <!--打开任务-->
+    <update id="openTask">
+       update  ylq_task set status=1 where id =#{id}
+    </update>
+</mapper>

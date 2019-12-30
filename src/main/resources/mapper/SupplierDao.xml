@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.fun.dao.SupplierDao">
+    <!--商家列表-->
+    <resultMap type="com.springboot.fun.entity.NideShopSupplier" id="NideShopSupplierList">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="contactMobie" column="contact_mobie"/>
+        <result property="primaryPicUrl" column="primary_pic_url"/>
+        <result property="thumbnailUrl" column="thumbnail_url"/>
+        <result property="introduction" column="introduction"/>
+        <result property="openTime" column="open_time"/>
+        <result property="schoolName" column="school_name"/>
+        <result property="browseNum" column="browse_num"/>
+        <result property="browseTrueNum" column="browse_true_num"/>
+        <result property="shareNum" column="share_num"/>
+        <result property="shareTrueNum" column="share_true_num"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="schoolState" column="school_state"/>
+        <result property="label" column="label"/>
+    </resultMap>
+
+<!--查看商家详情-->
+    <resultMap type="com.springboot.fun.entity.NideShopSupplier" id="NideShopSupplierMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="contactMobie" column="contact_mobie"/>
+        <result property="primaryPicUrl" column="primary_pic_url"/>
+        <result property="thumbnailUrl" column="thumbnail_url"/>
+        <result property="introduction" column="introduction"/>
+        <result property="openTime" column="open_time"/>
+        <result property="browseNum" column="browse_num"/>
+        <result property="browseTrueNum" column="browse_true_num"/>
+        <result property="shareNum" column="share_num"/>
+        <result property="shareTrueNum" column="share_true_num"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="schoolState" column="school_state"/>
+        <result property="label" column="label"/>
+
+         <collection property="funSchoolSupplierList" ofType="com.springboot.fun.entity.FunSchoolSupplier">
+            <result property="sId" column="sId"/>
+            <result property="schoolId" column="schoolId"/>
+            <result property="supplierId" column="supplier_id"/>
+            <result property="createTime" column="create_time"/>
+            <result property="updateTime" column="update_time"/>
+             <result property="schoolName" column="schoolName"/>
+         </collection>
+        <collection property="supplierEmployeeEntityList" ofType="com.springboot.fun.entity.SupplierEmployeeEntity">
+            <result property="supplierId" column="supplierId"/>
+            <result property="customerId" column="customerId"/>
+            <result property="wxrealname" column="wxRealName"/>
+            <result property="wximgurl" column="wxImgurl"/>
+            <result property="nickname" column="nickname"/>
+            <result property="openId" column="open_id"/>
+        </collection>
+    </resultMap>
+    <!--收银员-->
+    <resultMap type="com.springboot.fun.entity.SupplierEmployeeEntity" id="SupplierEmployeeEntityList">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="loginName" column="login_name"/>
+        <result property="longitude" column="longitude"/>
+        <result property="password" column="password"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTiem" column="update_time"/>
+        <result property="description" column="description"/>
+        <result property="wxrealname" column="wxRealName"/>
+        <result property="unionid" column="unionid"/>
+        <result property="wximgurl" column="wxImgurl"/>
+        <result property="nickname" column="nickname"/>
+        <result property="openId" column="open_id"/>
+        <result property="authorization" column="authorization"/>
+    </resultMap>
+    <!--获取所有商家-->
+    <select id="findAllSupplier" resultType="com.springboot.fun.entity.NideShopSupplier" resultMap="NideShopSupplierList" >
+       select
+       ns.id,
+         ns.name,
+         ns.address,
+         ns.longitude,
+         ns.latitude,
+         ns.contact_mobie,
+         ns.primary_pic_url,
+         ns.thumbnail_url,
+         ns.introduction,
+         ns.open_time,
+         ns.school_name,
+         ns.status,
+         ns.browse_num,
+         ns.browse_true_num,
+         ns.share_num,
+         ns.share_true_num,
+         ns.label,
+         ns.create_time,
+         ns.update_time,
+        ns.school_state
+        FROM
+        nideshop_supplier ns
+         LEFT JOIN fun_school_supplier fss ON ns.id =fss.supplier_id
+        where  1=1
+            and (#{schoolId} is null or fss.school_id=#{schoolId})
+            and (#{search} is null or
+            (instr(ns.name,#{search})>0)
+            )
+            group by fss.supplier_id
+        order by ns.create_time desc
+    </select>
+     <!--//////////////////////////查询商家和员工的时候，注意一定要区分商家和删除-->
+
+    <!--上传商家-->
+    <insert id="insertSupplier" parameterType="com.springboot.fun.entity.NideShopSupplier">
+		insert into nideshop_supplier(
+		id,
+        name,
+        address,
+        longitude,
+        latitude,
+        contact_mobie,
+        primary_pic_url,
+        thumbnail_url,
+        introduction,
+        open_time,
+        browse_num,
+        browse_true_num,
+        share_num,
+        share_true_num,
+        label
+			)
+		values(
+			#{id},
+			#{name},
+			#{address},
+			#{longitude},
+			#{latitude},
+			#{contactMobie},
+			#{primaryPicUrl},
+			#{thumbnailUrl},
+			#{introduction},
+			#{openTime},
+			#{browseNum},
+			#{browseTrueNum},
+			#{shareNum},
+			#{shareTrueNum},
+			#{label}
+			)
+	</insert>
+   <!--修改前，返回原来的信息-->
+    <select id="findAllSupplierById" resultType="com.springboot.fun.entity.NideShopSupplier" resultMap="NideShopSupplierMap" >
+       select
+         ns.id,
+         ns.name,
+         ns.address,
+         ns.longitude,
+         ns.latitude,
+         ns.contact_mobie,
+         ns.primary_pic_url,
+         ns.thumbnail_url,
+         ns.introduction,
+         ns.open_time,
+         ns.status,
+         ns.browse_num,
+         ns.browse_true_num,
+         ns.share_num,
+         ns.share_true_num,
+         ns.create_time,
+         ns.update_time,
+         ns.school_state,
+         ns.label,
+         fss.sId as sId,
+         fss.create_time as createTime,
+         fss.school_id as schoolId,
+         fss.supplier_id as supplierId,
+         ys.school_name as schoolName,
+         nse.supplier_id  as supplierId,
+         nse.nickname as nickname,
+         nse.customer_id as customerId,
+         nse.open_id as openId,
+         nse.wxRealName as wxrealname,
+         nse.wxImgurl as wximgurl
+        FROM
+        nideshop_supplier ns
+         LEFT JOIN fun_school_supplier fss ON ns.id=fss.supplier_id
+         LEFT JOIN ylq_school ys ON ys.id=fss.school_id
+         LEFT JOIN nideshop_supplier_employee nse ON ns.id=nse.supplier_id
+        where ns.id=#{id}
+    </select>
+    <!--修改商家-->
+    <update id="updateSupplier">
+        UPDATE nideshop_supplier
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name!=null">name=#{name},</if>
+            <if test="address!=null">address=#{address},</if>
+            <if test="longitude!=null">longitude=#{longitude},</if>
+            <if test="latitude!=null">latitude=#{latitude},</if>
+            <if test="contactMobie!=null">contact_mobie=#{contactMobie},</if>
+            <if test="primaryPicUrl!=null">primary_pic_url=#{primaryPicUrl},</if>
+            <if test="thumbnailUrl!=null">thumbnail_url=#{thumbnailUrl},</if>
+            <if test="introduction!=null">introduction=#{introduction},</if>
+            <if test="openTime!=null">open_time=#{openTime},</if>
+            <!--<if test="schoolId!=null">school_id=#{schoolId},</if>-->
+            <if test="browseNum!=null">browse_num=#{browseNum},</if>
+            <if test="browseTrueNum!=null">browse_true_num=#{browseTrueNum},</if>
+            <if test="shareNum!=null">share_num=#{shareNum},</if>
+            <if test="shareTrueNum!=null">share_true_num=#{shareTrueNum},</if>
+            <if test="label!=null">label=#{label},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+    <!--下架商家-->
+    <update id="outSupplier">
+	update nideshop_supplier set status=0 where id=#{id}
+	</update>
+    <!--根据商家名字模糊搜索-->
+    <select id="findAllSupplierByName" resultType="com.springboot.fun.entity.NideShopSupplier" resultMap="NideShopSupplierList" >
+       select
+       ns.id,
+         ns.name,
+         ns.address,
+         ns.longitude,
+         ns.latitude,
+         ns.contact_mobie,
+         ns.primary_pic_url,
+         ns.thumbnail_url,
+         ns.introduction,
+         ns.open_time,
+         ns.school_name,
+         ns.status,
+         ns.browse_num,
+         ns.browse_true_num,
+         ns.share_num,
+         ns.share_true_num,
+         ns.create_time,
+         ns.update_time,
+         ns.school_state
+        FROM
+        nideshop_supplier ns
+        where  (instr(ns.name,#{name})>0 or instr(ns.id,#{name})>0) and status=1
+    </select>
+    <!--根据商家id查询商家的收银员-->
+    <select id="findAllSupplierEmployeeBySupplierId" resultType="com.springboot.fun.entity.SupplierEmployeeEntity" resultMap="SupplierEmployeeEntityList" >
+        select
+        nsm.id,
+        nsm.name,
+        nsm.login_name,
+        nsm.password,
+        nsm.customer_id,
+        nsm.supplier_id,
+        nsm.create_time,
+        nsm.update_time,
+        nsm.description,
+        nsm.wxRealName,
+        nsm.unionid,
+        nsm.wxImgurl,
+        nsm.nickname,
+        nsm.open_id,
+        nsm.authorization
+        FROM
+        nideshop_supplier_employee nsm
+        where supplier_id=#{supplierId}
+    </select>
+   <!--根据用户唯一id或者昵称模糊查找用户(商家的添加员工需返回)   在AppletLoginDao里面searchMapWXUserByName-->
+    <!--添加收银员-->
+    <insert id="insertSupplierEmployee" parameterType="com.springboot.fun.entity.SupplierEmployeeEntity">
+		insert into nideshop_supplier_employee(
+          id,
+         name,
+         customer_id,
+         supplier_id,
+         wxRealName,
+         wxImgurl,
+         nickname,
+         open_id
+			)
+		values(
+			#{id},
+			#{name},
+			#{supplierId},
+			#{customerId},
+			#{wxrealname},
+			#{wximgurl},
+			#{nickname},
+			#{openId}
+			)
+	</insert>
+
+     <!--返回要修改的员工信息-->
+    <select id="findAllSupplierEmployeeById" resultType="com.springboot.fun.entity.SupplierEmployeeEntity" resultMap="SupplierEmployeeEntityList" >
+        select
+        nsm.id,
+        nsm.name,
+        nsm.login_name,
+        nsm.password,
+        nsm.customer_id,
+        nsm.supplier_id,
+        nsm.create_time,
+        nsm.update_time,
+        nsm.description,
+        nsm.wxRealName,
+        nsm.unionid,
+        nsm.wxImgurl,
+        nsm.nickname,
+        nsm.open_id,
+        nsm.authorization
+        FROM
+        nideshop_supplier_employee nsm
+        where id=#{id}
+    </select>
+    <!-- 根据主键id修改员工的信息-->
+    <update id="updateSupplierEmployeeById">
+        UPDATE nideshop_supplier_employee
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name!=null">name=#{name},</if>
+            <if test="wxrealname!=null">wxRealName=#{wxrealname},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+    <!--根据主键id,唯一id，和员工微信昵称，员工编号模糊搜索员工-->
+    <select id="findSupplierEmployeeByName" resultType="com.springboot.fun.entity.SupplierEmployeeEntity" resultMap="SupplierEmployeeEntityList" >
+        select
+        nsm.id,
+        nsm.name,
+        nsm.login_name,
+        nsm.password,
+        nsm.customer_id,
+        nsm.supplier_id,
+        nsm.create_time,
+        nsm.update_time,
+        nsm.description,
+        nsm.wxRealName,
+        nsm.unionid,
+        nsm.wxImgurl,
+        nsm.nickname,
+        nsm.open_id,
+        nsm.authorization
+        FROM
+        nideshop_supplier_employee nsm
+         LEFT JOIN wx_user wu ON nsm.customer_id= wu.id
+        where instr(nsm.id,#{name})>0 or instr(nsm.nickname,#{name})>0 or instr(wu.user_id,#{name})>0
+        or instr(nsm.name,#{name})>0
+    </select>
+
+   <!-- 删除员工-->
+    <update id="outSupplierEmployee">
+	update nideshop_supplier_employee nsp set nsp.authorization=0 where id=#{id}
+	</update>
+
+   <!-- //校区修改  试一试-->
+    <insert id="addsupplierSchool">
+        insert into fun_school_supplier (sId,school_id,supplier_id)
+        values
+        <foreach collection ="list" item="list" separator="," >
+            (#{list.sId},#{list.schoolId},#{list.supplierId})
+        </foreach>
+    </insert>
+    <!--修改这个商家的校区状态为全校区-->
+    <update id="updateSupplierSchoolState">
+	update nideshop_supplier  set   school_state=3 where id=#{id}
+	</update>
+    <!--先删除这个商家下的所有校区-->
+    <delete id="deleteSupplierSchool">
+	delete from fun_school_supplier where supplier_id=#{id}
+	</delete>
+    <!--删除收银员-->
+    <delete id="deleteSupplierEmployee">
+	delete from nideshop_supplier_employee where supplier_id=#{id}
+	</delete>
+    <!--添加收银员-->
+<!--    <insert id="addsupplierempoyee" parameterType="com.springboot.fun.entity.SupplierEmployeeEntity">
+		insert into nideshop_supplier_employee(
+          id,
+         supplier_id,
+         customer_id,
+         wxRealName,
+         wxImgurl,
+         nickname,
+         open_id
+			)
+		values(
+			#{id},
+			#{supplierId},
+			#{customerId},
+			#{wxrealname},
+			#{wximgurl},
+			#{nickname},
+			#{openId}
+			)
+	</insert>-->
+    <insert id="addsupplierempoyee">
+        insert into nideshop_supplier_employee (id,supplier_id,customer_id,wxRealName,wxImgurl,nickname,open_id)
+        values
+        <foreach collection ="list" item="list" separator="," >
+            (#{list.id},#{list.supplierId},#{list.customerId},#{list.wxrealname},#{list.wximgurl},#{list.nickname},#{list.openId})
+        </foreach>
+    </insert>
+   <!-- 根据商家名称，模糊搜索商家&#45;&#45;商品列表需要-->
+    <select id="searchAllSupplierByName" resultType="com.springboot.fun.entity.NideShopSupplier" resultMap="NideShopSupplierList" >
+       select
+       ns.id,
+         ns.name,
+         ns.address,
+         ns.longitude,
+         ns.latitude,
+         ns.contact_mobie,
+         ns.primary_pic_url,
+         ns.thumbnail_url,
+         ns.introduction,
+         ns.open_time,
+         ns.school_name,
+         ns.status,
+         ns.browse_num,
+         ns.browse_true_num,
+         ns.share_num,
+         ns.share_true_num,
+         ns.create_time,
+         ns.update_time,
+         ns.school_state
+        FROM
+        nideshop_supplier ns
+        where  ns.name   like  "%"#{supplierName}"%"
+        </select>
+
+    <!--上架商家-->
+    <update id="upSupplier">
+	update nideshop_supplier set status=1 where id=#{id}
+	</update>
+    <!--如果商家为全校区，则改为单校区-->
+    <update id="updateSupplierAllSchoolState">
+	update nideshop_supplier  set   school_state=1 where id=#{id}
+	</update>
+    </mapper>
