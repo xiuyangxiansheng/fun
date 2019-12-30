@@ -48,7 +48,7 @@ public class PiaoFuTong {
         System.out.println(referJson);
 
         String sessionkey = referJson.get("SOAP-ENV:Body").toString();
-        System.out.println(sessionkey);
+        System.out.println(sessionkey);//dayig
         int strStartIndex = sessionkey.indexOf("<Data>");
         int endStartIndex = sessionkey.indexOf("</Data>")+"</Data>".length();
         System.out.println(strStartIndex+"pp"+endStartIndex);
