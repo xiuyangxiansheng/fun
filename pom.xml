@@ -263,7 +263,7 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk14</artifactId>
-            <version>1.57</version>
+            <version>1.61</version>
         </dependency>
         <dependency>
             <groupId>com.github.liyiorg</groupId>
